@@ -1,0 +1,3 @@
+function domodal() {
+    document.querySelector("#")
+}
