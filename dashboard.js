@@ -1,3 +1,1 @@
-function domodal() {
-    document.querySelector("#")
-}
+document.querySelector("#notification").innerHTML="total"

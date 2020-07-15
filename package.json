@@ -1,0 +1,26 @@
+{
+  "name": "Splitit",
+  "version": "1.0.0",
+  "description": ". We started making a website which will based on idea of spliting price.",
+  "main": "main.js",
+  "dependencies": {
+    "bootstrap": "^4.5.0",
+    "dotenv": "^8.2.0",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imrajatmehta/Splitit.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/imrajatmehta/Splitit/issues"
+  },
+  "homepage": "https://github.com/imrajatmehta/Splitit#readme"
+}
