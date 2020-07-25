@@ -1,16 +1,27 @@
 {
-  "name": "Splitit",
+  "name": "splitit",
   "version": "1.0.0",
   "description": ". We started making a website which will based on idea of spliting price.",
   "main": "main.js",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^4.5.0",
+    "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
-    "mysql": "^2.18.1"
+    "express": "^4.17.1",
+    "express-flash": "0.0.2",
+    "express-session": "^1.17.1",
+    "hbs": "^4.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^2.2.0",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.4",
+    "req-flash": "0.0.3"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
