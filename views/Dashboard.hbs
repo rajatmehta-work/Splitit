@@ -35,11 +35,11 @@
                 <span class="dropdown open">
                     {{#if ress}}
                         
-                    <button style="color: #00FF00;" class="btn btn-sm dropdown-toggle" type="button" aria-expanded="false" data-toggle="dropdown" aria-haspopup="true">Notifications(<span id="notification">{{ress.length }}</span>)</button>
+                    <button style="color: #00FF00;" class="btn btn-sm dropdown-toggle" type="button" aria-expanded="false" data-toggle="dropdown" aria-haspopup="true">Friend Requests(<span id="notification">{{ress.length }}</span>)</button>
                     <div class="dropdown-menu" style="padding: 0%;">
                         <div class="dropdown-item">
-                        
                             {{#each ress}}
+                            
                              <div class="row ">
                                  <div class="col-sm-5" style=" margin:0%;padding: 0%;font-size:60%">{{this.Name}}
                                  </div>
@@ -80,7 +80,7 @@
                     <p style="font-size:medium">Groups <a href="/addgroup" >  +add</a></p>
                     <div class="card mr-5">
                         <p style="background-color: black; color: #00FF00;"> <span class="ml-2"> Invite Friends</span></p>
-                            <form method="GET" action="/auth/sendInvitation" >
+                            <form method="POST" action="/auth/sendInvitation" >
                                 <div class="form-group">
                                     <input type="email" style="width:90%; margin:4px;" placeholder="enter an email" name="invite">
                                     <button  style="background-color: #00FF00;width:fit-content;margin: 5px;" type="submit">Send Invite</button>
@@ -95,11 +95,11 @@
                             
                     </div>
                     
-                    <div class="card mr-5" id="show_friends" style="border-radius: solid 1px black;">
-                        <p>Your Friends</p>
+                    <div class="card mr-5 mt-2" id="show_friends" style="border-radius: solid 1px black;">
+                        <h5>Your Friends</h5>
                         {{#if friendsList}}
-                            {{#each friendList}}
-                            <h4>{{this}}</h4>
+                            {{#each friendsList}}
+                                <small style="font-style:oblique;">{{this.Name}}</small>
                             {{/each}}
                         
                         {{/if}}
@@ -220,6 +220,7 @@
             setTimeout("hideinvitepopup('invitepopup')",3000);
         }
     {{/if}}
+    
     
 </script>
     

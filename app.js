@@ -32,7 +32,7 @@
 // what is route 
     // routed defines the way in which client requents are handled on backend
 // read:
-//     hbs,template engine ,view engine,handlebars,ROUTING,controllers
+//     hbs,template engine ,view engine,handlebars,ROUTING,controllers,callback
 // now we use jwt for authorisatoin 
 //     why we use coz it stateless
 //         noe firstly we check user is correct or not 

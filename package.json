@@ -4,6 +4,7 @@
   "description": ". We started making a website which will based on idea of spliting price.",
   "main": "main.js",
   "dependencies": {
+    "async": "^3.2.0",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.5.0",
     "cookie-parser": "^1.4.5",

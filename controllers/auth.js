@@ -68,6 +68,10 @@ exports.login=async(req,res)=>{
 }
 exports.signup=(req,res)=>{
     const {name,email,password,passwordComfirm}=req.body;
+    console.log(req.body)
+    if(password=='' || email=='')return res.render("signup",{
+        message:"enter values first"
+    })
     // we are using ? to avoid sql injectoion so we use positional pararmeter
     db.query("SELECT email from sp_users WHERE email=?",[email],async(error,result)=>{
         if(!error){
@@ -87,7 +91,7 @@ exports.signup=(req,res)=>{
             console.log(error);
         }
         let hashpass=await bcry.hash(password,8);
-        db.query("INSERT INTO sp_useraccepts SET ?",{Name:name,email:email,password:hashpass},(error,result)=>{
+        db.query("INSERT INTO sp_users SET ?",{Name:name,email:email,password:hashpass},(error,result)=>{
             if(error)console.log(error);
             else{
                 
@@ -102,10 +106,10 @@ exports.signup=(req,res)=>{
 
     // handling send invitation to user 
     exports.sendInvitation=(req,res)=>{
-        const {id,invite}=req.query;
+        const {id,invite}=req.body;
         const current_user_id=jwt.verify(req.headers.cookie.split("=")[1],process.env.JWT_SECRET).id;
         
-        db.query("select email,id from sp_users where email=?",[invite],async (err,result)=>{
+        db.query("select email,id from sp_users where email=?",[invite], (err,result)=>{
             if(err){
                 return res.sendStatus(400);
             }
