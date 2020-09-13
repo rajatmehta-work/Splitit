@@ -60,14 +60,10 @@ const dotenv=require('dotenv');
 const { urlencoded } = require('express');
 dotenv.config({path:"./.env"})
 
-
-
-
-
 const db=sql.createConnection({
     host:process.env.DATABASE_HOST,
     user:process.env.DATABASE_USER,
-    password:process.env.DATABASE_PASS,
+    
     database:process.env.DATABASE,
 
 });
@@ -82,7 +78,7 @@ app.use(cookieParser());
 
 db.connect((error)=>{
     if(error){
-        console.log(error);
+        console.log("it is not working");
     }
     else{
         console.log("SQL is running");

@@ -69,6 +69,12 @@ exports.login=async(req,res)=>{
 exports.signup=(req,res)=>{
     const {name,email,password,passwordComfirm}=req.body;
     console.log(req.body)
+    // db.query("SELECT name from sp_users WHERE email=\"iamgabruh@gmail.com\"",(error,rek)=>{
+    //     if(error)console.log("again");
+    //     else{
+    //         console.log(rek)
+    //     }
+    // })
     if(password=='' || email=='')return res.render("signup",{
         message:"enter values first"
     })
@@ -91,7 +97,7 @@ exports.signup=(req,res)=>{
             console.log(error);
         }
         let hashpass=await bcry.hash(password,8);
-        db.query("INSERT INTO sp_users SET ?",{Name:name,email:email,password:hashpass},(error,result)=>{
+        db.query("INSERT INTO sp_users SET ?",{name:name,email:email,password:hashpass},(error,result)=>{
             if(error)console.log(error);
             else{
                 
