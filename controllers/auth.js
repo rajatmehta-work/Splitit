@@ -14,7 +14,7 @@ const db=sql.createConnection({
 exports.login=async(req,res)=>{
     const {email,password} =req.body;
     console.log("eanjkl")
-    db.query("SELECT email,password,id from sp_users  where email=?",[email],async(error,result)=>{
+    db.query("SELECT name,email,password,id from sp_users  where email=?",[email],async(error,result)=>{
         if(error){
             console.log(error);
         }
@@ -39,8 +39,10 @@ exports.login=async(req,res)=>{
                     })
                 }
                 else{
+                    // console.log(result[0])
                     const id=result[0].id;
-                    const token=jwt.sign({id},process.env.JWT_SECRET,{
+                    const namee=result[0].name;
+                    const token=jwt.sign({id,namee},process.env.JWT_SECRET,{
                         expiresIn:process.env.JWT_expiresIn
                     });
                     // console.log(token);
@@ -89,7 +91,7 @@ exports.signup=(req,res)=>{
             else if(password!==passwordComfirm){
                 return res.render("signup",{
                     message:"password is not matched"
-                })
+                })  
             }
                
         }
@@ -113,8 +115,9 @@ exports.signup=(req,res)=>{
     // handling send invitation to user 
     exports.sendInvitation=(req,res)=>{
         const {id,invite}=req.body;
+        console.log("send Invitation")
+        console.log(jwt.verify(req.headers.cookie.split("=")[1],process.env.JWT_SECRET))
         const current_user_id=jwt.verify(req.headers.cookie.split("=")[1],process.env.JWT_SECRET).id;
-        
         db.query("select email,id from sp_users where email=?",[invite], (err,result)=>{
             if(err){
                 return res.sendStatus(400);
@@ -122,15 +125,11 @@ exports.signup=(req,res)=>{
             else{
                 
                 if(result.length<1){
-                     
-                    return res.render(path.join(__dirname,"../views/Dashboard"),{
-                        message:"User not found"
-                    })
+                    return res.redirect("../Dashboard?message="+"Check Email again")
                 }
                 else if(result[0].id==current_user_id){
-                    return res.render(path.join(__dirname,"../views/Dashboard"),{
-                        message:"you cant add yourself"
-                    })
+                      
+                    return res.redirect("../Dashboard?message="+"You cant't sent yourself")
                 }
                 else{
                     db.query("insert into sp_friend_requests set ?",{uid:result[0].id,request_id:current_user_id},async(err,resul)=>{
@@ -138,10 +137,9 @@ exports.signup=(req,res)=>{
                             return res.sendStatus(404);
                         }
                         else{
-                            return res.render(path.join(__dirname,"../views/Dashboard"),{
-                                message:"Sended"
-                            })
-                    
+                            // req.flash("message","ohyeash");
+                            
+                            res.redirect("../Dashboard?message="+"Sent");
                         }
                     })
                     
@@ -151,21 +149,29 @@ exports.signup=(req,res)=>{
     }
     exports.acceptInvitation=(req,res)=>{
         const friendId=req.body.accept;
+        const friendName=req.body.name;
         const currUser=jwt.verify(req.headers.cookie.split("=")[1],process.env.JWT_SECRET).id;
-        db.query("delete from sp_friend_requests where (request_id=? AND uid=?)",[friendId,currUser],(err,result)=>{
+        const currUserName=jwt.verify(req.headers.cookie.split("=")[1],process.env.JWT_SECRET).namee;
+        db.query("delete from sp_friend_requests where (request_id=? AND uid=?)",   [friendId,currUser],(err,result)=>{
             if(err){
                 console.log(err)
                 return res.sendStatus(404);
             }   
             else{
-                db.query("insert into sp_friends set ?",{uid:currUser,friend_id:friendId},(err,resultss)=>{
+
+                db.query("update sp_users set friends=case when friends is not null then concat(friends,concat(\",\",concat(?,concat(\":\",?)))) else  concat(?,concat(\":\",?)) end where id=?",[friendId,friendName,friendId,friendName,currUser],(err,res)=>{
                     if(err)console.log(err)
                     
                 })
-                db.query("insert into sp_friends set ?",{uid:friendId,friend_id:currUser},(err,resultss)=>{
+                console.log("printing acceptInvi users by id"+currUser+" and name"+currUserName)
+                console.log("friendId"+friendId)
+                console.log("friendname"+friendName);
+                db.query("update sp_users set friends=case when friends is not null then concat(friends,concat(\",\",concat(?,concat(\":\",?)))) else  concat(?,concat(\":\",?)) end where id=?",[currUser,currUserName,currUser,currUserName,friendId],(err,res)=>{
                     if(err)console.log(err)
-                    else return  res.redirect("../Dashboard");
+                    
                 })
+               
+                 return res.redirect("../Dashboard")
             }
 
         })

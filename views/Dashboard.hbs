@@ -41,12 +41,13 @@
                             {{#each ress}}
                             
                              <div class="row ">
-                                 <div class="col-sm-5" style=" margin:0%;padding: 0%;font-size:60%">{{this.Name}}
+                                 <div class="col-sm-5" style="margin:0%;padding: 0%;font-size:60%">{{this.name}}
                                  </div>
-                                
-                                        <div class="col-sm-2" style="margin:0%; padding:0%">
+                                    <div class="col-sm-2" style="margin:0%; padding:0%">
                                             <form action="/auth/acceptInvitation" method="POST">
                                                 <input type="hidden" name="accept" value={{this.request_id}}>
+                                                <input type="hidden" name="name" value={{this.name}}>
+
                                                 <button  class=" btn btn-sm "style="font-size:70%;width:20%; height:10%; background-color:#00FF00">✓</button>
                                             </form>
                                         </div>
@@ -99,7 +100,7 @@
                         <h5>Your Friends</h5>
                         {{#if friendsList}}
                             {{#each friendsList}}
-                                <small style="font-style:oblique;">{{this.Name}}</small>
+                                <small style="font-style:oblique;">{{this}}</small>
                             {{/each}}
                         
                         {{/if}}
