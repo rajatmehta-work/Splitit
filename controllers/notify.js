@@ -33,9 +33,16 @@ exports.showNotifications=(req,res)=>{
             ],(err,results)=>{
                 if(err)console.log(err)
                 var tempFriend;
-                console.log(results[0][0]);
-                if(results[1][0].friends!=null){
-                    tempFriend=results[1][0].friends.split(",");
+                console.log("printing resutl")
+                console.log(results[1][0][0].friends);
+                if(results[1][0][0].friends!==null){
+                    var arrayOfcomasaparatedFriendlist=results[1][0][0].friends.split(",");
+                    tempFriend=new Array();
+                    console.log(arrayOfcomasaparatedFriendlist)
+                    arrayOfcomasaparatedFriendlist.forEach(value=>{
+                        console.log(value)
+                        tempFriend.push(value.split(":")[1]);
+                    })
                     
 
                 }
@@ -44,6 +51,7 @@ exports.showNotifications=(req,res)=>{
                 }
                 console.log("check message in show notifu")
                 console.log(req.query)
+                console.log(tempFriend)
                 return res.render("Dashboard",{
                     ress:results[0][0], 
                     friendsList:tempFriend,
