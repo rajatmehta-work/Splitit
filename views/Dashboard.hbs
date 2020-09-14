@@ -73,8 +73,13 @@
             
             
         </nav>
-       
+        {{#if successfullyAddedGroup}}
+       <div id="invitepopup2" class="alert alert-success"  >
+            <center>{{successfullyAddedGroup}}</center>
+        </div>
+        {{/if}}
         <div class="row">
+            
             <div    class="col-lg-3">
                 <div class="ml-5 mt-2">
                     <p><a href="/Dashboard"  style="font-size:large;color:black">Dashboard</a></p>
@@ -219,6 +224,13 @@
         window.onload=function() {
             console.log("entered")
             setTimeout("hideinvitepopup('invitepopup')",3000);
+        }
+    {{/if}}
+     
+    {{#if successfullyAddedGroup}}
+        window.onload=function() {
+            console.log("entered1")
+            setTimeout("hideinvitepopup('invitepopup2')",3000);
         }
     {{/if}}
     

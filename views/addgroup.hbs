@@ -42,59 +42,92 @@
             </div>
             
         </nav>
-       
-            <div class="row">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-5">
-                    <h2>start a new group</h2>
-                    <form >
-                        <div class="form-group col-sm-6">
-                            <label for="" style="font-size:large;">Enter group name</label>
-                            <input type="text" name="" id="" class="form-control    " placeholder="">
+            <form id="form1" method="POST" action="/auth/addNewGroup"></form>
+                <div class="row">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-5">
+                        <h2>start a new group</h2>
+                    <br>
+                            <div class="form-group col-sm-6">
+                                <label  style="font-size:large;">Enter group name</label>
+                                <input type="text" name="groupName" id="" class="form-control    " placeholder="" form="form1">
+                                
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <br>
+                                <u><a    onclick="addInviteField()" style="color: #00FF00;">invite friend</a></u>
+                                <form method="POST" action="/auth/sendInvitationfromaddGroup" >
+                                
+                                <div class="form-group" id="addInviteFieldId" style="display:none">
+                                    <input type="email" style="width:90%; margin:4px;" placeholder="enter an email" name="invite">
+                                    
+                                    <button  style="background-color: #00FF00;width:fit-content;margin: 5px;" type="submit">Send Invite</button>
+                                    
+                                </div>
+                                {{#if message}}
+                                    <div id="invitepopup" class="form-group">
+                                        <p class="alert alert-danger">{{message}}</p>
+                                    </div>
+                                    {{/if}}
+                            </form>   
+                                
+                            </div>
+                            <div class="form-group col-lg-7">
+                                <br>
+                               <button style="background-color: #00FF00;" class="btn btn-large" form="form1">Save</button>
+                               
+                            </div>  
                             
+
+                    
+                    </div>
+                    <div class="form-group col-lg-4 ">
+                       
+                      
+                        <p>GROUP MEMBERS</p>
+                        <div class="card" >
+                            <img class=" card-img-top" style="height:250px" src="img\cute_monsters.jpg" alt="friend">
+                            <div  style="overflow: scroll; height:220px">
+                                <ul class="list-group-flush">
+                                    {{#if finalList}}
+                                        {{#each finalList}}
+                                            <li  class="list-group-item">{{this.name}} <input name="groupFriendId"form="form1" type="checkbox" value="{{this.id}}"></li>
+                                            <br>
+                                        {{/each}}
+                                    {{/if}}
+                                </ul>
+                            </div>
                         </div>
-                        <div class="form-group col-lg-6">
-                            <p>GROUP MEMBERS</p>
-                            <small><a href="inviteFriend" style="color: #00FF00;">invite friend</a></small>
+                         
+
+
+
+
+
+
+                        {{!-- <h3 >Group Type</h3>
+                        <select class="bootstrap-select">
+                            <option value="1" selected="selected">Feature 1</option>
+                            <option value="2">Feature 2</option>
+                            <option value="3">Feature 3</option>
+                            <option value="4">Feature 4</option>
+                        </select>
+                        <h3>Simpilify group DEBTS</h3>
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-danger  active">
+                                <input type="checkbox" name="" id="" checked autocomplete="off">
+                            </label>
                             
-                        </div>
-                        <div class="form-group col-lg-7">
-                            <input type="text" class=" mb-2 form-control" name="username" placeholder="enter  username">
-                            <input type="text" class=" mb-2 form-control" name="username" placeholder="enter  username">
-                            <input type="text" class=" mb-2 form-control" name="username" placeholder="enter  username">
-                            <input type="text" class=" mb-2 form-control" name="username" placeholder="enter  username">          
-                            <button class="btn btn-sm " style="color: #00FF00;">+Add Friend</button>
-                        </div>  
+                        </div> --}}
+                         
                         
-
-                    </form>
+                    </div>
                 </div>
-                <div class="form-group col-lg-5 ">
-                    <h3 >Group Type</h3>
-                    <select class="bootstrap-select">
-                        <option value="1" selected="selected">Feature 1</option>
-                        <option value="2">Feature 2</option>
-                        <option value="3">Feature 3</option>
-                        <option value="4">Feature 4</option>
-                      </select>
-                      <h3>Simpilify group DEBTS</h3>
-                      <div class="btn-group" data-toggle="buttons">
-                          <label class="btn btn-danger  active">
-                              <input type="checkbox" name="" id="" checked autocomplete="off">
-                          </label>
-                          
-                      </div>
-                      <div>
-                        <button style="background-color: #00FF00;" class="btn btn-large" >Save</button>
-                      </div>
-                </div>
-            </div>
-
+                
+         
        
 
-
-       </div> 
-
+ 
 
 
 
@@ -122,9 +155,7 @@
 
 
 
-
-
-
+    {{!-- //footer --}}
 
         <div>
             <footer class="footer">
@@ -154,7 +185,31 @@
 
 
     
-<script src="dashboard.js">
+<script >
+    const temparray=new Array();
+     function hideinvitepopup(id){
+        document.getElementById(id).style.display="none";
+        
+    }
+
+    {{#if message}}
+        
+
+        window.onload=function() {
+            console.log("entered")
+            setTimeout("hideinvitepopup('invitepopup')",3000);
+        }
+    {{/if}}
+    
+    function addInviteField(){
+        temparray.push("its working")
+        if(document.getElementById("addInviteFieldId").style.display !== 'block')
+        document.getElementById("addInviteFieldId").style.display = 'block'
+        else{
+            document.getElementById("addInviteFieldId").style.display = 'none'
+        }
+        console.log(temparray)
+    }
     
 </script>
     

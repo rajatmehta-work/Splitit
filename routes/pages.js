@@ -44,6 +44,7 @@ router.get("/settleup",middleware,(req,res)=>{
     })
 })
 router.get("/addgroup",middleware,(req,res)=>{
+    console.log("Add Group")
     jwt.verify(req.token,process.env.JWT_SECRET,(err,id)=>{
         if(err){
             console.log("Error in jwt.veryfy")
@@ -51,7 +52,25 @@ router.get("/addgroup",middleware,(req,res)=>{
 
         }
         else{   
-            res.render("addgroup") 
+            const currUserId=jwt.verify(req.headers.cookie.split("=")[1],process.env.JWT_SECRET).id
+            db.query("select friends from sp_users where id=?",[currUserId],(err,result)=>{
+                if(err)console.log(err)
+                else{
+                    console.log(result[0].friends)
+                    const finalList=[]
+                    const templistOfFriends=result[0].friends.split(",");
+                     templistOfFriends.forEach(element => {
+                        finalList.push({id:element.split(":")[0],name:element.split(":")[1]})    
+                    });
+                     
+                    
+                    res.render("addgroup",{
+                        message:req.query.message,
+                        finalList:finalList
+                    }) 
+                }
+            })
+            
         } 
     })
 })

@@ -52,10 +52,12 @@ exports.showNotifications=(req,res)=>{
                 console.log("check message in show notifu")
                 console.log(req.query)
                 console.log(tempFriend)
+                console.log(req.query.successfullyAddedGroup)
                 return res.render("Dashboard",{
                     ress:results[0][0], 
                     friendsList:tempFriend,
-                    message:req.query.message
+                    message:req.query.message,
+                    successfullyAddedGroup:req.query.successfullyAddedGroup
 
 
                 })

@@ -191,3 +191,57 @@ exports.signup=(req,res)=>{
         })
 
     }
+    exports.sendInvitationfromaddGroup=(req,res)=>{
+        const {id,invite}=req.body;
+        console.log("sendInvitationfromaddGroup")
+        console.log(jwt.verify(req.headers.cookie.split("=")[1],process.env.JWT_SECRET))
+        const current_user_id=jwt.verify(req.headers.cookie.split("=")[1],process.env.JWT_SECRET).id;
+        db.query("select email,id from sp_users where email=?",[invite], (err,result)=>{
+            if(err){
+                return res.sendStatus(400);
+            }
+            else{
+                
+                if(result.length<1){
+                    return res.redirect("../addgroup?message="+"Check Email again")
+                }
+                else if(result[0].id==current_user_id){
+                      
+                    return res.redirect("../addgroup?message="+"You cant't sent yourself")
+                }
+                else{
+                    db.query("insert into sp_friend_requests set ?",{uid:result[0].id,request_id:current_user_id},async(err,resul)=>{
+                        if(err){
+                            return res.sendStatus(404);
+                        }
+                        else{
+                            // req.flash("message","ohyeash");
+                            console.log("enter")
+                            res.redirect("../addgroup?message="+"Sent");
+                        }
+                    })
+                    
+                }
+            }
+        })
+    }
+    exports.addnewgroup=(req,res)=>{
+        const currUser=jwt.verify(req.headers.cookie.split("=")[1],process.env.JWT_SECRET).id;
+        const currUserName=jwt.verify(req.headers.cookie.split("=")[1],process.env.JWT_SECRET).namee;
+       
+        console.log("enter addnewgrou;p")
+        console.log(req.body.groupFriendId)
+        var finalGroupFriendId="";
+        for(var i=0;i<req.body.groupFriendId.length;i++){finalGroupFriendId+=req.body.groupFriendId[i]+","}
+        
+            
+ 
+        db.query("insert into sp_group set ?",{group_name:req.body.groupName,group_member:finalGroupFriendId},(err,res)=>{
+            if(err)console.log(err)
+            
+                
+        })
+        return res.redirect("../Dashboard?successfullyAddedGroup="+"Successfully Created Group :))")
+        
+
+    }
