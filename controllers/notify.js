@@ -38,9 +38,9 @@ exports.showNotifications=(req,res)=>{
                 if(results[1][0][0].friends!==null){
                     var arrayOfcomasaparatedFriendlist=results[1][0][0].friends.split(",");
                     tempFriend=new Array();
-                    console.log(arrayOfcomasaparatedFriendlist)
+                    // console.log(arrayOfcomasaparatedFriendlist)
                     arrayOfcomasaparatedFriendlist.forEach(value=>{
-                        console.log(value)
+                        // console.log(value)
                         tempFriend.push(value.split(":")[1]);
                     })
                     
