@@ -1,4 +1,5 @@
 const async=require("async");
+const { getRounds } = require("bcryptjs");
 const express=require("express");
 const jwt=require("jsonwebtoken");
 const mysql=require("mysql")
@@ -26,6 +27,7 @@ exports.showNotifications=(req,res)=>{
             
             const query1="select  sp_users.name,sp_friend_requests.request_id  from sp_users inner join sp_friend_requests on sp_users.id=sp_friend_requests.request_id where sp_friend_requests.uid="+curr_user;
             const query2="select friends from sp_users where id="+curr_user;
+            const query3="select group_name,group"
             // advantage of async.parrallel is both query will run parrallely such that response will quickier
             async.parallel([
                 function(callback){db.query(query1,callback)},
@@ -47,20 +49,62 @@ exports.showNotifications=(req,res)=>{
 
                 }
                 else{
-                    tempFriend=new Array(1).fill("No Friends");
+                    tempFriend=null;
                 }
                 console.log("check message in show notifu")
                 console.log(req.query)
                 console.log(tempFriend)
                 console.log(req.query.successfullyAddedGroup)
-                return res.render("Dashboard",{
-                    ress:results[0][0], 
-                    friendsList:tempFriend,
-                    message:req.query.message,
-                    successfullyAddedGroup:req.query.successfullyAddedGroup
+                let groupList=null;
 
+                if(tempFriend!==null && groupList!==null){
+                    return res.render("Dashboard",{
+                        ress:results[0][0], 
+                        friendsList:tempFriend,
+                        message:req.query.message,
+                        successfullyAddedGroup:req.query.successfullyAddedGroup,
+                        groupList
+                        
 
-                })
+                    })
+
+                }
+                else if(tempFriend!==null){
+                    return res.render("Dashboard",{
+                        ress:results[0][0], 
+                        friendsList:tempFriend,
+                        message:req.query.message,
+                        successfullyAddedGroup:req.query.successfullyAddedGroup,
+                        // groupList
+                        
+
+                    })
+
+                }
+                else if(groupList!==null){
+                    return res.render("Dashboard",{
+                        ress:results[0][0], 
+                        // friendsList:tempFriend,
+                        message:req.query.message,
+                        successfullyAddedGroup:req.query.successfullyAddedGroup,
+                        groupList
+                         
+
+                    })
+
+                }
+                else{
+                    return res.render("Dashboard",{
+                        ress:results[0][0], 
+                        // friendsList:tempFriend,
+                        message:req.query.message,
+                        successfullyAddedGroup:req.query.successfullyAddedGroup,
+                         
+                         
+
+                    })
+
+                }
                 
             })
                         

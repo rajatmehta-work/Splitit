@@ -58,16 +58,26 @@ router.get("/addgroup",middleware,(req,res)=>{
                 else{
                     console.log(result[0].friends)
                     const finalList=[]
-                    const templistOfFriends=result[0].friends.split(",");
-                     templistOfFriends.forEach(element => {
-                        finalList.push({id:element.split(":")[0],name:element.split(":")[1]})    
-                    });
-                     
+                    if(result[0].friends!==null){
+                        const templistOfFriends=result[0].friends.split(",");
+                        templistOfFriends.forEach(element => {
+                            finalList.push({id:element.split(":")[0],name:element.split(":")[1]})    
+                        });
+                        res.render("addgroup",{
+                            message:req.query.message,
+                            finalList:finalList,
+                            alertForGroup:req.query.alertForGroup
+                        })
+                    }
+                    else{
+                        res.render("addgroup",{
+                            message:req.query.message,
+                            NoFriends:"No Friends",
+                            alertForGroup:req.query.alertForGroup
+                        })
+                    }
                     
-                    res.render("addgroup",{
-                        message:req.query.message,
-                        finalList:finalList
-                    }) 
+                     
                 }
             })
             

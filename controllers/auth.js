@@ -3,6 +3,7 @@ const sql=require("mysql");
 const jwt=require("jsonwebtoken");
 const bcry=require("bcryptjs");
 const path=require("path");
+const { check,validationResult } = require("express-validator");
 
 const db=sql.createConnection({
     host:process.env.DATABASE_HOST,
@@ -230,17 +231,45 @@ exports.signup=(req,res)=>{
         const currUserName=jwt.verify(req.headers.cookie.split("=")[1],process.env.JWT_SECRET).namee;
        
         console.log("enter addnewgrou;p")
-        console.log(req.body.groupFriendId)
-        var finalGroupFriendId="";
-        for(var i=0;i<req.body.groupFriendId.length;i++){finalGroupFriendId+=req.body.groupFriendId[i]+","}
+        // console.log(req.body.groupFriendId)
+       
         
+        var finalGroupFriendId="";
+        const err=validationResult(req);
+        var alertForgroup;
+        if(!err.isEmpty()){
+            alertForgroup=err.array()
+            console.log(err.array())
             
- 
+            if(err.array().length==2){
+                return res.redirect("../addgroup?alertForGroup="+"Please Add Friends and Enter Group Name");
+            }
+            else if(err.array().param==="checkbox"){
+                return res.redirect("../addgroup?alertForGroup="+err.array()[0].msg);
+            }
+            else{
+
+                return res.redirect("../addgroup?alertForGroup="+err.array()[0].msg);
+            }
+            
+        }
+        var finalGroupFriendArray=new Array();
+        for(var i=0;i<req.body.groupFriendId.length;i++){
+            finalGroupFriendId+=req.body.groupFriendId[i]+","
+            finalGroupFriendArray.push(req.body.groupFriendId[i]);
+        }
+        var lastInsertedId;
         db.query("insert into sp_group set ?",{group_name:req.body.groupName,group_member:finalGroupFriendId},(err,res)=>{
             if(err)console.log(err)
-            
-                
+            lastInsertedId=res.insertId
         })
+        // db.query("update sp_users set group")
+        console.log("lastInsertedId")
+        console.log(lastInsertedId)
+        db.query("UPDATE sp_users set group_ids= case when group_ids is not null then concat(group_ids,concat(\",\",?)) else ? end where id in ?",[lastInsertedId,lastInsertedId,1],(err,ress)=>{
+            if(err)console.log(err)
+        })
+// 
         return res.redirect("../Dashboard?successfullyAddedGroup="+"Successfully Created Group :))")
         
 

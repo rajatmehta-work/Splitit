@@ -59,7 +59,7 @@ const sql=require("mysql")
 const dotenv=require('dotenv');
 const { urlencoded } = require('express');
 dotenv.config({path:"./.env"})
-
+const {check,   validationResult }=require("express-validator")
 const db=sql.createConnection({
     host:process.env.DATABASE_HOST,
     user:process.env.DATABASE_USER,
@@ -67,7 +67,28 @@ const db=sql.createConnection({
     database:process.env.DATABASE,
 
 });
+const expHbs=require("express-handlebars")
+const handlebarshelpers=require("handlebars-helpers")
 // 
+const helpersHbs=require("handlebars-helpers")();
+// setting default template
+const hbs=expHbs.create({
+    extname:"hbs",
+    defaultLayout:"default",
+    layoutsDir:path.join(__dirname,"views/layout/"),
+    helpers:{
+        helpersHbs,
+        gtlength:function(length,options){
+            if(length>=5){
+                return options.fn(this);
+            }
+            return options.inverse(this);
+        }
+    }
+})
+
+app.engine("hbs",hbs.engine)
+
 const publicDirectory=path.join(__dirname,'./public');
 // express by default doesnt server static files
 app.use(express.static(publicDirectory));
