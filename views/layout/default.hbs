@@ -86,7 +86,12 @@
                 <center>{{successfullyAddedGroup}}</center>
             </div>
             {{/if}}
-
+            {{#if selectGroup}}
+            <div id="invitepopup2" class="alert alert-warning"  >
+                <center>{{selectGroup}}</center>
+            </div>
+            {{/if}}
+    
             {{{body}}}
 
 
@@ -164,6 +169,12 @@
     {{/if}}
      
     {{#if successfullyAddedGroup}}
+        window.onload=function() {
+            console.log("entered1")
+            setTimeout("hideinvitepopup('invitepopup2')",3000);
+        }
+    {{/if}}
+    {{#if selectGroup}}
         window.onload=function() {
             console.log("entered1")
             setTimeout("hideinvitepopup('invitepopup2')",3000);

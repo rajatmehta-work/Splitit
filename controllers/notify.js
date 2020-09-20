@@ -53,7 +53,7 @@ exports.showNotifications=(req,res)=>{
                 if(groupNameId==null)return (groupNameId)
                 else{
                     return new Promise((resolve,reject)=>{
-                        const query3="select group_name from sp_group where gid in (?)"
+                        const query3="select gid,group_name from sp_group where gid in (?)"
                         db.query(query3,[groupNameId],(err,groupNames)=>{
                             // console.log(groupNames )
                             resolve(groupNames)
@@ -100,7 +100,8 @@ exports.showNotifications=(req,res)=>{
                             friendsList:tempFriend,
                             message:req.query.message,
                             successfullyAddedGroup:req.query.successfullyAddedGroup,
-                            groupList 
+                            groupList,
+                            selectGroup:req.query.selectGroup 
                             
 
                         })
@@ -112,6 +113,7 @@ exports.showNotifications=(req,res)=>{
                             friendsList:tempFriend,
                             message:req.query.message,
                             successfullyAddedGroup:req.query.successfullyAddedGroup,
+                            selectGroup:req.query.selectGroup 
                             // groupList
                             
 
@@ -124,20 +126,20 @@ exports.showNotifications=(req,res)=>{
                             // friendsList:tempFriend,
                             message:req.query.message,
                             successfullyAddedGroup:req.query.successfullyAddedGroup,
-                            groupList 
+                            groupList ,
+                            selectGroup:req.query.selectGroup 
                             
 
                         })
 
                     }
                     else{
-                    
                         return res.render("Dashboard",{
                             ress:results[0][0], 
                             // friendsList:tempFriend,
                             message:req.query.message,
                             successfullyAddedGroup:req.query.successfullyAddedGroup,
-                            
+                            selectGroup:req.query.selectGroup 
                             
 
                         })

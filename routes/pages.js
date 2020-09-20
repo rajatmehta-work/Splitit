@@ -35,8 +35,7 @@ router.get("/settleup",middleware,(req,res)=>{
     jwt.verify(req.token,process.env.JWT_SECRET,(err,id)=>{
         if(err){
             console.log("Error in jwt.veryfy")
-            return res.sendStatus(404);
-
+            return res.render("login")
         }
         else{ 
             res.render("settleup") 
@@ -88,11 +87,19 @@ router.get("/addexpenses",middleware,(req,res)=>{
     jwt.verify(req.token,process.env.JWT_SECRET,(err,id)=>{
         if(err){
             console.log("Error in jwt.veryfy")
-            return res.sendStatus(404);
+            return res.redirect("login")
 
         }
         else{ 
-            res.render("addexpenses") 
+            console.log("enter in addExpenses")
+            
+            if(req.query.selectedGroupId===undefined){
+                res.redirect("Dashboard?selectGroup="+"Please Select Group")
+            }
+            else{
+                res.render("addexpenses") 
+            }
+            
         } 
     })
 })

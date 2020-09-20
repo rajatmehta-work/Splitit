@@ -70,7 +70,7 @@ exports.login=async(req,res)=>{
             }
         }
     })
-}
+    }
 exports.signup=(req,res)=>{
     const {name,email,password,passwordComfirm}=req.body;
     console.log(req.body)
@@ -119,7 +119,7 @@ exports.signup=(req,res)=>{
     exports.sendInvitation=(req,res)=>{
         const {id,invite}=req.body;
         console.log("send Invitation")
-        console.log(jwt.verify(req.headers.cookie.split("=")[1],process.env.JWT_SECRET))
+       
         const current_user_id=jwt.verify(req.headers.cookie.split("=")[1],process.env.JWT_SECRET).id;
         db.query("select email,id from sp_users where email=?",[invite], (err,result)=>{
             if(err){
@@ -261,6 +261,7 @@ exports.signup=(req,res)=>{
             finalGroupFriendArray.push(req.body.groupFriendId[i]-'0');
         }
         finalGroupFriendArray.push(currUser)
+        finalGroupFriendId+=currUser+","
         var lastInsertedId;
         // https://www.youtube.com/watch?v=_JOP8rcDjJE
         const promisekr= new Promise((resolve,reject)=>{

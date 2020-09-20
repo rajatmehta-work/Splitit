@@ -13,12 +13,12 @@
                     {{else}}
                         <div class="card">
                     {{/gtlength}}
-                        <div class="card-group-flush">
+                        <div class="card-group-flush" >
                             {{#each groupList}}
-                                <li  class="list-group-item">{{this.group_name}} </li>
+                                <li  class="list-group-item">{{this.group_name}}<input type="radio" value={{this.gid}} form="form1" name="selectedGroupId" ></li>
                                 
                             {{/each}}
-                        {{!--  --}}
+                        
                         </div>
                     
                     </div>
@@ -59,7 +59,10 @@
     <div class="col-lg-6" >
         <div class="d-flex">
             <div >
-                <a href="/addexpenses" class=" display-4 btn btn-lg mt-1" style="background-color: #00FF00;">Add Expenses</a>
+                <form id="form1" method="get" action="/addexpenses">
+                    <button  class=" display-4 btn btn-lg mt-1" style="background-color: #00FF00;">Add Expenses</a>
+                </form>
+                
                 
             </div>
             <div class="ml-auto">       
