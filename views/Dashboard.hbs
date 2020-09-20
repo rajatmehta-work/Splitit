@@ -8,20 +8,21 @@
             <div class="card">
                 <h5> Groups <a href="/addgroup" >  +add</a></h5>
                 {{#if groupList}}
-                    
-                    <div class="card example-1 square scrollbar-dusty-grass square thin">
+                    {{#gtlength groupList.length}}
+                        <div class="card example-1 square scrollbar-dusty-grass square thin"> 
+                    {{else}}
+                        <div class="card">
+                    {{/gtlength}}
                         <div class="card-group-flush">
-                            <li  class="list-group-item">AQwrr </li>
-                            
-                                    {{#each groupList}}
-                                        <li  class="list-group-item">{{this.name}} </li>
-                                        <br>
-                                    {{/each}}
-                            
-                        </ul>
+                            {{#each groupList}}
+                                <li  class="list-group-item">{{this.group_name}} </li>
+                                
+                            {{/each}}
+                    
+                        </div>
                     
                     </div>
-                    <br>
+                   
                 
                 {{else}}
                         

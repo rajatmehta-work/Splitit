@@ -4,6 +4,8 @@ const jwt=require("jsonwebtoken");
 const bcry=require("bcryptjs");
 const path=require("path");
 const { check,validationResult } = require("express-validator");
+const { resolve } = require("path");
+const { reject } = require("async");
 
 const db=sql.createConnection({
     host:process.env.DATABASE_HOST,
@@ -78,8 +80,8 @@ exports.signup=(req,res)=>{
     //         console.log(rek)
     //     }
     // })
-    if(password=='' || email=='')return res.render("signup",{
-        message:"enter values first"
+    if(password=='' || email=='' ||name=='' )return res.render("signup",{
+        message:"Fill All Value"
     })
     // we are using ? to avoid sql injectoion so we use positional pararmeter
     db.query("SELECT email from sp_users WHERE email=?",[email],async(error,result)=>{
@@ -256,21 +258,36 @@ exports.signup=(req,res)=>{
         var finalGroupFriendArray=new Array();
         for(var i=0;i<req.body.groupFriendId.length;i++){
             finalGroupFriendId+=req.body.groupFriendId[i]+","
-            finalGroupFriendArray.push(req.body.groupFriendId[i]);
+            finalGroupFriendArray.push(req.body.groupFriendId[i]-'0');
         }
+        finalGroupFriendArray.push(currUser)
         var lastInsertedId;
-        db.query("insert into sp_group set ?",{group_name:req.body.groupName,group_member:finalGroupFriendId},(err,res)=>{
-            if(err)console.log(err)
-            lastInsertedId=res.insertId
-        })
-        // db.query("update sp_users set group")
-        console.log("lastInsertedId")
-        console.log(lastInsertedId)
-        db.query("UPDATE sp_users set group_ids= case when group_ids is not null then concat(group_ids,concat(\",\",?)) else ? end where id in ?",[lastInsertedId,lastInsertedId,1],(err,ress)=>{
-            if(err)console.log(err)
-        })
-// 
-        return res.redirect("../Dashboard?successfullyAddedGroup="+"Successfully Created Group :))")
+        // https://www.youtube.com/watch?v=_JOP8rcDjJE
+        const promisekr= new Promise((resolve,reject)=>{
+                db.query("insert into sp_group set ?",{group_name:req.body.groupName,group_member:finalGroupFriendId},(err,res)=>{
+                    if(err)reject(err)
+                    resolve(res.insertId)
+                })
+            }).then((value,value2)=>{
+                // console.log(value2+nter)
+                db.query("UPDATE sp_users set group_ids= case when group_ids is not null then concat(group_ids,concat(\",\",?)) else ? end where id in (?)",[value,value,finalGroupFriendArray],(err,ress)=>{
+
+                    if(err)console.log(err)
+                   
+                })  
+                return "Successfully Created Group :))"
+                
+                 
+            }).then(value=>{
+                return res.redirect("../Dashboard?successfullyAddedGroup="+value)
+            })
+            .catch(err=>{
+                console.log("Error while promising")
+                console.log(err)
+            })
+            
+          
+       
         
 
     }
