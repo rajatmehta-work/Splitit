@@ -1,188 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- CSS only -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <!-- JS, Popper.js, and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="login.css">
     <link rel="stylesheet" href="scrollbar.css">
     <title>Dashboard</title>
     <style>
-      
+
     </style>
 </head>
+
 <body>
     <header class="header">
         <nav class="navbar navbar-expand-md navbar-dark" style="background-color:black;">
-            <a  class="navbar-brand" href="/Dashboard">
+            <a class="navbar-brand" href="/Dashboard">
                 <img src="/img/logo.jpg" width="45" alt="" class="d-inline-block align-middle mr-2">
 
-                <span class="font-weight-bold"style="color: #00FF00;">SpLitIt</span>
+                <span class="font-weight-bold" style="color: #00FF00;">SpLitIt</span>
             </a>
-            
+
             <div class="ml-auto">
                 <span class="dropdown open">
-                    <button style="color:#00FF00" class="btn  btn-sm m-3 dropdown-toggle" type="button" id="profile_id" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                                Profile
-                            </button>
+                    <button style="color:#00FF00" class="btn  btn-sm m-3 dropdown-toggle" type="button" id="profile_id"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Profile
+                    </button>
                     <div class="dropdown-menu" aria-labelledby="triggerId">
                         <a class="dropdown-item" href="/account">Your Account</a>
                         <a class="dropdown-item" href="/auth/logout">Log Out</a>
-                        
+
                     </div>
                 </span>
                 <span class="dropdown open">
                     {{#if ress}}
-                        
-                    <button style="color: #00FF00;" class="btn btn-sm dropdown-toggle" type="button" aria-expanded="false" data-toggle="dropdown" aria-haspopup="true">Friend Requests(<span id="notification">{{ress.length }}</span>)</button>
+
+                    <button style="color: #00FF00;" class="btn btn-sm dropdown-toggle" type="button"
+                        aria-expanded="false" data-toggle="dropdown" aria-haspopup="true">Friend Requests(<span
+                            id="notification">{{ress.length }}</span>)</button>
                     <div class="dropdown-menu" style="padding: 0%;">
                         <div class="dropdown-item">
                             {{#each ress}}
-                            
-                             <div class="row ">
-                                 <div class="col-sm-5" style="margin:0%;padding: 0%;font-size:60%">{{this.name}}
-                                 </div>
-                                    <div class="col-sm-2" style="margin:0%; padding:0%">
-                                            <form action="/auth/acceptInvitation" method="POST">
-                                                <input type="hidden" name="accept" value={{this.request_id}}>
-                                                <input type="hidden" name="name" value={{this.name}}>
 
-                                                <button  class=" btn btn-sm "style="font-size:70%;width:20%; height:10%; background-color:#00FF00">✓</button>
-                                            </form>
-                                        </div>
-                                        <div class="col-sm-2" style="margin:0%;">
-                                            <form action="/auth/declineInvitation" method="POST">
-                                                <input type="hidden" name="accept" value={{this.request_id}}>
-                                                <button  class=" btn btn-sm "style="font-size:60%;width:20%; height:10%; background-color:#FF0000"> ✘</button>
-                                            </form>
-                                        </div>
-                                        
-                                    
-                                 </li>
-                             </div>
+                            <div class="row ">
+                                <div class="col-sm-5" style="margin:0%;padding: 0%;font-size:60%">{{this.name}}
+                                </div>
+                                <div class="col-sm-2" style="margin:0%; padding:0%">
+                                    <form action="/auth/acceptInvitation" method="POST">
+                                        <input type="hidden" name="accept" value={{this.request_id}}>
+                                        <input type="hidden" name="name" value={{this.name}}>
+
+                                        <button class=" btn btn-sm "
+                                            style="font-size:70%;width:20%; height:10%; background-color:#00FF00">✓</button>
+                                    </form>
+                                </div>
+                                <div class="col-sm-2" style="margin:0%;">
+                                    <form action="/auth/declineInvitation" method="POST">
+                                        <input type="hidden" name="accept" value={{this.request_id}}>
+                                        <button class=" btn btn-sm "
+                                            style="font-size:60%;width:20%; height:10%; background-color:#FF0000">
+                                            ✘</button>
+                                    </form>
+                                </div>
+
+
+                                </li>
+                            </div>
                             {{/each}}
-                        
-                    
-                        {{/if}}
+
+
+                            {{/if}}
                         </div>
                     </div>
-                    
-                </span>   
+
+                </span>
             </div>
-            
-            
+
+
         </nav>
     </header>
-    
-        <div class="container">
 
-            
-            {{#if successfullyAddedGroup}}
-            <div id="invitepopup2" class="alert alert-success"  >
-                <center>{{successfullyAddedGroup}}</center>
-            </div>
-            {{/if}}
-            {{#if selectGroup}}
-            <div id="invitepopup2" class="alert alert-warning"  >
-                <center>{{selectGroup}}</center>
-            </div>
-            {{/if}}
-    
-            {{{body}}}
+    <div class="container">
 
 
-            
-
-
-
-
-
-
-
-
-
-
-
+        {{#if successfullyAddedGroup}}
+        <div id="invitepopup2" class="alert alert-success">
+            <center>{{successfullyAddedGroup}}</center>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <div>
-                <footer class="footer">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 680 91" class="w-full">
-                        <path fill="#00FF00" d="M349 76.499L286 113V40z"></path>
-                        <path fill="black" d="M480 74.5L446 94V55z"></path>
-                        <path fill="#00FF00" d="M223 76.5l63 36.5V40zm182 1.999L446 102V55z"></path>
-                        <path fill="black" d="M169 48v82l71-41z"></path>
-                        <path fill="#00FF00" d="M121 75.499L169 103V48z"></path>
-                        <path fill="black" d="M456 101h-96V46z"></path>
-                        <path fill="#00FF00" d="M360 46v55h-96z"></path>
-                        <path fill="#black" d="M436 93h63V57z"></path>
-                        <path fill="#00FF00" d="M499 57v36h63z"></path>
-                        <path fill="#black" d="M491 93h84.18V44z"></path>
-                        <path fill="#00FF00" d="M575.18 93h84.179l-84.18-49z"></path>
-                        <path fill="black" d="M601 94h48V66z"></path>
-                        <path fill="#00FF00" d="M649 66v28h48z"></path>
-                        <path fill="#00FF00" d="M170.385 93h76V49z"></path>
-                        <path fill="black" d="M246.385 49v44h76z"></path>
-                        <path fill="black" d="M166 93H70V38z"></path>
-                        <path fill="#00FF00" d="M70 38v55h-96z"></path>
-                    </svg>
-                </footer>
-                
-            </div>
-        
+        {{/if}}
+        {{#if selectGroup}}
+        <div id="invitepopup2" class="alert alert-warning">
+            <center>{{selectGroup}}</center>
         </div>
+        {{/if}}
+
+        {{{body}}}
 
 
-    
-<script>
-    function hideinvitepopup(id){
-        document.getElementById(id).style.display="none";
-        
-    }
-    {{#if message}}
-    
 
-        window.onload=function() {
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div>
+        <footer class="footer">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 680 91"
+                class="w-full">
+                <path fill="#00FF00" d="M349 76.499L286 113V40z"></path>
+                <path fill="black" d="M480 74.5L446 94V55z"></path>
+                <path fill="#00FF00" d="M223 76.5l63 36.5V40zm182 1.999L446 102V55z"></path>
+                <path fill="black" d="M169 48v82l71-41z"></path>
+                <path fill="#00FF00" d="M121 75.499L169 103V48z"></path>
+                <path fill="black" d="M456 101h-96V46z"></path>
+                <path fill="#00FF00" d="M360 46v55h-96z"></path>
+                <path fill="#black" d="M436 93h63V57z"></path>
+                <path fill="#00FF00" d="M499 57v36h63z"></path>
+                <path fill="#black" d="M491 93h84.18V44z"></path>
+                <path fill="#00FF00" d="M575.18 93h84.179l-84.18-49z"></path>
+                <path fill="black" d="M601 94h48V66z"></path>
+                <path fill="#00FF00" d="M649 66v28h48z"></path>
+                <path fill="#00FF00" d="M170.385 93h76V49z"></path>
+                <path fill="black" d="M246.385 49v44h76z"></path>
+                <path fill="black" d="M166 93H70V38z"></path>
+                <path fill="#00FF00" d="M70 38v55h-96z"></path>
+            </svg>
+        </footer>
+
+    </div>
+
+    </div>
+
+
+
+    <script>
+        function hideinvitepopup(id) {
+            document.getElementById(id).style.display = "none";
+
+        }
+        { {#if message } }
+
+
+        window.onload = function () {
             console.log("entered")
-            setTimeout("hideinvitepopup('invitepopup')",3000);
+            setTimeout("hideinvitepopup('invitepopup')", 3000);
         }
-    {{/if}}
-     
-    {{#if successfullyAddedGroup}}
-        window.onload=function() {
-            console.log("entered1")
-            setTimeout("hideinvitepopup('invitepopup2')",3000);
-        }
-    {{/if}}
-    {{#if selectGroup}}
-        window.onload=function() {
-            console.log("entered1")
-            setTimeout("hideinvitepopup('invitepopup2')",3000);
-        }
-    {{/if}}
-    
-    
-</script>
-    
+        {
+            {
+                /if}}
+
+                { {#if successfullyAddedGroup } }
+                window.onload = function () {
+                    console.log("entered1")
+                    setTimeout("hideinvitepopup('invitepopup2')", 3000);
+                }
+                {
+                    {
+                        /if}}
+                        { {#if selectGroup } }
+                        window.onload = function () {
+                            console.log("entered1")
+                            setTimeout("hideinvitepopup('invitepopup2')", 3000);
+                        }
+                        { { /if}}
+
+
+    </script>
+
 </body>
+
 </html>

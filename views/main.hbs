@@ -1,83 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- CSS only -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <!-- JS, Popper.js, and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="login.css">
     <title>Login</title>
 </head>
-<body>
-    
-        <nav class="navbar navbar-expand-md navbar-dark" style="background-color:black;">
-            <a  class="navbar-brand" href="main.html">
-                <img src="/img/logo.jpg" width="45" alt="" class="d-inline-block align-middle mr-2">
 
-                <span class="font-weight-bold"style="color: #00FF00;">SpLitIt</span>
-            </a>
-            <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
-                aria-expanded="false" aria-label="Toggle navigation"></button>
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                </ul>
-                    <a href="login.html">
-                    <button style="color: #00FF00;" class="btn btn-outline-success  my-2 my-sm-0" type="submit">Login</button>
-                    </a>
-                    <h5 class="m-2 " style="color: #E6FB04  ;">or</h5>
-                    <a href="signup.html">
-                    <button style="color: #00FF00;" class="btn btn-outline-success my-2 my-sm-0" type="submit">Signup</button>
-                    </a>
-            
-        </nav>
-        <div style ="margin-top:5%" class="row">
-            <div class="col-sm-2">
-            </div>
-            <div class="col-sm-8">
-                <div class="row" id="parent_left_right">
-                    <div class="col-lg-6" >
-                        <h1 id="main_left_style">Don't worry when sharing expenses    <span id="main_left"></span></h1>
-                        
-                    </div>
-                    <div class="col-lg-6">
-                        <img id="main_right">
-                        
-                    </div>
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color:black;">
+        <a class="navbar-brand" href="main.html">
+            <img src="/img/logo.jpg" width="45" alt="" class="d-inline-block align-middle mr-2">
+
+            <span class="font-weight-bold" style="color: #00FF00;">SpLitIt</span>
+        </a>
+        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+            aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"></button>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        </ul>
+        <a href="login.html">
+            <button style="color: #00FF00;" class="btn btn-outline-success  my-2 my-sm-0" type="submit">Login</button>
+        </a>
+        <h5 class="m-2 " style="color: #E6FB04  ;">or</h5>
+        <a href="signup.html">
+            <button style="color: #00FF00;" class="btn btn-outline-success my-2 my-sm-0" type="submit">Signup</button>
+        </a>
+
+    </nav>
+    <div style="margin-top:5%" class="row">
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-8">
+            <div class="row" id="parent_left_right">
+                <div class="col-lg-6">
+                    <h1 id="main_left_style">Don't worry when sharing expenses <span id="main_left"></span></h1>
+
+                </div>
+                <div class="col-lg-6">
+                    <img id="main_right">
+
                 </div>
             </div>
-
-        </div>    
-
-        <div>
-            <footer class="footer">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 680 91" class="w-full">
-                    <path fill="#00FF00" d="M349 76.499L286 113V40z"></path>
-                    <path fill="black" d="M480 74.5L446 94V55z"></path>
-                    <path fill="#00FF00" d="M223 76.5l63 36.5V40zm182 1.999L446 102V55z"></path>
-                    <path fill="black" d="M169 48v82l71-41z"></path>
-                    <path fill="#00FF00" d="M121 75.499L169 103V48z"></path>
-                    <path fill="black" d="M456 101h-96V46z"></path>
-                    <path fill="#00FF00" d="M360 46v55h-96z"></path>
-                    <path fill="#black" d="M436 93h63V57z"></path>
-                    <path fill="#00FF00" d="M499 57v36h63z"></path>
-                    <path fill="#black" d="M491 93h84.18V44z"></path>
-                    <path fill="#00FF00" d="M575.18 93h84.179l-84.18-49z"></path>
-                    <path fill="black" d="M601 94h48V66z"></path>
-                    <path fill="#00FF00" d="M649 66v28h48z"></path>
-                    <path fill="#00FF00" d="M170.385 93h76V49z"></path>
-                    <path fill="black" d="M246.385 49v44h76z"></path>
-                    <path fill="black" d="M166 93H70V38z"></path>
-                    <path fill="#00FF00" d="M70 38v55h-96z"></path>
-                  </svg>
-              </footer>
-              
         </div>
-    
+
+    </div>
+
+    <div>
+        <footer class="footer">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 680 91"
+                class="w-full">
+                <path fill="#00FF00" d="M349 76.499L286 113V40z"></path>
+                <path fill="black" d="M480 74.5L446 94V55z"></path>
+                <path fill="#00FF00" d="M223 76.5l63 36.5V40zm182 1.999L446 102V55z"></path>
+                <path fill="black" d="M169 48v82l71-41z"></path>
+                <path fill="#00FF00" d="M121 75.499L169 103V48z"></path>
+                <path fill="black" d="M456 101h-96V46z"></path>
+                <path fill="#00FF00" d="M360 46v55h-96z"></path>
+                <path fill="#black" d="M436 93h63V57z"></path>
+                <path fill="#00FF00" d="M499 57v36h63z"></path>
+                <path fill="#black" d="M491 93h84.18V44z"></path>
+                <path fill="#00FF00" d="M575.18 93h84.179l-84.18-49z"></path>
+                <path fill="black" d="M601 94h48V66z"></path>
+                <path fill="#00FF00" d="M649 66v28h48z"></path>
+                <path fill="#00FF00" d="M170.385 93h76V49z"></path>
+                <path fill="black" d="M246.385 49v44h76z"></path>
+                <path fill="black" d="M166 93H70V38z"></path>
+                <path fill="#00FF00" d="M70 38v55h-96z"></path>
+            </svg>
+        </footer>
+
+    </div>
 
 
-    
-<script src="main.js"></script>
-    
+
+
+    <script src="main.js"></script>
+
 </body>
+
 </html>

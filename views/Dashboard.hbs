@@ -1,134 +1,131 @@
-
 <div class="row">
-    
-    <div    class="col-lg-3">
+
+    <div class="col-lg-3">
         <div class="ml-5 mt-2">
-            
-            <p><a href="/Dashboard"  style="font-size:large;color:black">Dashboard</a></p>
+
+            <p><a href="/Dashboard" style="font-size:large;color:black">Dashboard</a></p>
             <div class="card">
-                <h5> Groups <a href="/addgroup" >  +add</a></h5>
+                <h5> Groups <a href="/addgroup"> +add</a></h5>
                 {{#if groupList}}
-                    {{#gtlength groupList.length}}
-                        <div class="card example-1 square scrollbar-dusty-grass square thin"> 
+                {{#gtlength groupList.length}}
+                <div class="card example-1 square scrollbar-dusty-grass square thin">
                     {{else}}
-                        <div class="card">
-                    {{/gtlength}}
-                        <div class="card-group-flush" >
+                    <div class="card">
+                        {{/gtlength}}
+                        <div class="card-group-flush">
                             {{#each groupList}}
-                                <li  class="list-group-item">{{this.group_name}}<input type="radio" value={{this.gid}} form="form1" name="selectedGroupId" ></li>
-                                
+                            <li class="list-group-item">{{this.group_name}}<input type="radio" value={{this.gid}}
+                                    form="form1" name="selectedGroupId"></li>
+
                             {{/each}}
-                        
+
                         </div>
-                    
+
                     </div>
-                   
-                
-                {{else}}
-                        
+
+
+                    {{else}}
+
                     <li class="list-group-item">No Groups</li>
-                    
-                {{/if}}
-                    
 
-            </div>
+                    {{/if}}
 
-            <br>
-            <div class="card mr-5">
-                <p style="background-color: black; color: #00FF00;"> <span class="ml-2"> Invite Friends</span></p>
-                    <form method="POST" action="/auth/sendInvitation" >
+
+                </div>
+
+                <br>
+                <div class="card mr-5">
+                    <p style="background-color: black; color: #00FF00;"> <span class="ml-2"> Invite Friends</span></p>
+                    <form method="POST" action="/auth/sendInvitation">
                         <div class="form-group">
-                            <input type="email" style="width:90%; margin:4px;" placeholder="enter an email" name="invite">
-                            <button  style="background-color: #00FF00;width:fit-content;margin: 5px;" type="submit">Send Invite</button>
+                            <input type="email" style="width:90%; margin:4px;" placeholder="enter an email"
+                                name="invite">
+                            <button style="background-color: #00FF00;width:fit-content;margin: 5px;" type="submit">Send
+                                Invite</button>
                             {{#if message}}
                             <div id="invitepopup" class="form-group">
                                 <p class="alert alert-danger">{{message}}</p>
                             </div>
                             {{/if}}
                         </div>
-                    </form>    
+                    </form>
 
-                    
-            </div>
-            
-            
-        
-        </div>
-    </div>
-    
-    <div class="col-lg-6" >
-        <div class="d-flex">
-            <div >
-                <form id="form1" method="get" action="/addexpenses">
-                    <button  class=" display-4 btn btn-lg mt-1" style="background-color: #00FF00;">Add Expenses</a>
-                </form>
-                
-                
-            </div>
-            <div class="ml-auto">       
-                <a href="/settleup" class="btn btn-lg   mt-1" style="background-color: #00FF00;">Settle Up</a>
+
+                </div>
+
+
+
             </div>
         </div>
-        
-        <div class="col">
-            <div class=" m-2 d-flex justify-content-between">
+
+        <div class="col-lg-6">
+            <div class="d-flex">
                 <div>
-                    <small style="color: black;">total balance</small>
-                    <h6 id="showtotalbalance">+123$</h6>
+                    <form id="form1" method="get" action="/addexpenses">
+                        <button class=" display-4 btn btn-lg mt-1" style="background-color: #00FF00;">Add Expenses</a>
+                    </form>
+
+
                 </div>
-                <div>
-                    <small style="color: black;">You Owe</small>
-                    <h6 id="showowebalance">123$</h6>
-                </div>
-                <div>
-                    <small style="color: black;">You are Owed</small>
-                    <h6 id="showowedbalance">123$</h6>
+                <div class="ml-auto">
+                    <a href="/settleup" class="btn btn-lg   mt-1" style="background-color: #00FF00;">Settle Up</a>
                 </div>
             </div>
-        
+
+            <div class="col">
+                <div class=" m-2 d-flex justify-content-between">
+                    <div>
+                        <small style="color: black;">total balance</small>
+                        <h6 id="showtotalbalance">+123$</h6>
+                    </div>
+                    <div>
+                        <small style="color: black;">You Owe</small>
+                        <h6 id="showowebalance">123$</h6>
+                    </div>
+                    <div>
+                        <small style="color: black;">You are Owed</small>
+                        <h6 id="showowedbalance">123$</h6>
+                    </div>
+                </div>
+
+            </div>
         </div>
-    </div>
-    <div class="col-lg-3">
-        {{!-- <div class=" mt-3 card text-left">
+        <div class="col-lg-3">
+            {{!-- <div class=" mt-3 card text-left">
         <div class="card-body">
             <h4 class="card-title display-4">Rules</h4>
             <p class="card-text">Body</p>
         </div>
         </div> --}}
-        
-        <div class="  card mr-5 mt-2" id="show_friends" style="border-radius: solid 1px black;">
+
+            <div class="  card mr-5 mt-2" id="show_friends" style="border-radius: solid 1px black;">
                 <h5>Your Friends</h5>
-                {{#if friendsList}} 
-                    {{#gtlength friendsList.length}}
-                         <div class="card example-1 square scrollbar-dusty-grass square thin"> 
-                      {{else}}
-                        <div class="card">
-                    {{/gtlength}}
+                {{#if friendsList}}
+                {{#gtlength friendsList.length}}
+                <div class="card example-1 square scrollbar-dusty-grass square thin">
+                    {{else}}
+                    <div class="card">
+                        {{/gtlength}}
 
-                      
-                   
-                
-                    <div class="card-group-flush">
-                        
-                        {{#each friendsList}}
 
-                            <li class="list-group-item">{{this}}</li>        
-                        {{/each}}
-                    
-                    
+
+
+                        <div class="card-group-flush">
+
+                            {{#each friendsList}}
+
+                            <li class="list-group-item">{{this}}</li>
+                            {{/each}}
+
+
+                        </div>
+
                     </div>
+                    {{else}}
+                    <li class="list-group-item">No Friends</li>
+                    {{/if}}
+
 
                 </div>
-                {{else}}
-                    <li class="list-group-item">No Friends</li>
-                {{/if}}
-                
-
+            </div>
         </div>
-    </div>
-</div>
-
-
-
-
-

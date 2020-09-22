@@ -1,47 +1,43 @@
-
 <div class=" m-2 d-flex justify-content-center">
-    <form >
+    <form method="post" action="auth/addexpenses">
         <div class="form-group">
             <label> Description</label>
-            <input type="text" class="form-control">
-            
+            <input type="text" class="form-control" name="description">
+
         </div>
         <div class="form-group">
             <label> Add Amount</label>
-            <input id="add_ammount" onkeyup="doonkey()"type="text" placeholder="$" class="form-control">
-            
+            <input id="add_ammount" onkeyup="doonkey()" name="ammount" type="number" placeholder="$"
+                class="form-control">
+
         </div>
+
         <div class="form-group">
-            <label> Description</label>
-            <input type="text" class="form-control">
-            
-        </div>
-        <div class="form-group">
-            
-                <div class="d-flex">
-                    <div>
-                        <button class="btn btn-sm " style="border:1px solid #00FF00;" id="show_expenses_date">Date</button>
-                    </div>
-                    <div class="ml-auto">       
-                        <button class="btn btn-sm" style="border:1px solid #00FF00;" id="show_current_group">Group</button>
-                    </div>
+
+            <div class="d-flex">
+                <div>
+                    <button class="btn btn-sm " style="border:1px solid #00FF00;" id="show_expenses_date">Date</button>
                 </div>
-                <hr>
-                <center><small id="show_ammount_per_person"></small></center>
+                <div class="ml-auto">
+                    <button class="btn btn-sm" style="border:1px solid #00FF00;" id="show_current_group">Group</button>
+                </div>
+            </div>
+            <hr>
+            <center><small id="show_ammount_per_person"></small></center>
 
         </div>
         <div class="form-group">
             <div class="d-flex flex-row-reverse">
                 <div>
+                    <input type="hidden" name="groupId" value="{{groupId}}">
                     <button type="submit" class="btn btn-medium" style="background-color: #00FF00;">Save</button>
                 </div>
                 <div class="">
-                    <a href="Dashboard.html"  class="btn btn-sm" style="color: #00FF00;">Cancel</a>
+                    <a href="/Dashboard" class="btn btn-sm" style="color: #00FF00;">Cancel</a>
                 </div>
-                
+
             </div>
         </div>
-    </form>    
+    </form>
 
 </div>
-

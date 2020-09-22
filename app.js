@@ -41,7 +41,7 @@
 //                 then we will send the token to cokkkie of browser 
 
 
-
+// when something is decided on user then send response to pages otherwise auth
 
 
 
