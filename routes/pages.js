@@ -16,6 +16,7 @@ router.get("/", middleware, (req, res) => {
             console.log("en");
             res.render("index");
         } else {
+            console.log("ohhh ye ky")
             res.redirect("Dashboard");
         }
     });
@@ -28,12 +29,49 @@ router.get("/signup", (req, res) => {
     res.render("signup");
 });
 router.get("/settleup", middleware, (req, res) => {
+    console.log("enter in settle page")
     jwt.verify(req.token, process.env.JWT_SECRET, (err, id) => {
         if (err) {
             console.log("Error in jwt.veryfy");
             return res.render("login");
         } else {
-            res.render("settleup");
+            var today = new Date();
+            const currUserId = jwt.verify(req.headers.cookie.split("=")[1], process.env.JWT_SECRET).id
+
+
+            db.query("select friends from sp_users where id=?", currUserId, (err, result) => {
+                if (result[0].friends == null) {
+
+                    res.render("settleup", {
+                        date: today,
+                        alertForSettleUp: req.query.alertForSettleUp,
+                    })
+                }
+                else {
+                    const finalList = []
+                    const templistOfFriends = result[0].friends.split(",");
+                    templistOfFriends.forEach((element) => {
+                        finalList.push({
+
+                            id: element.split(":")[0],
+                            name: element.split(":")[1],
+                        });
+                    });
+
+                    res.render("settleup", {
+                        alertForSettleUp: req.query.alertForSettleUp,
+                        friendsList: finalList,
+
+                        date: today
+                    })
+
+
+                }
+
+
+
+            })
+
         }
     });
 });
@@ -57,9 +95,7 @@ router.get("/addgroup", middleware, (req, res) => {
                         console.log(result[0].friends);
                         const finalList = [];
                         if (result[0].friends !== null) {
-                            const templistOfFriends = result[0].friends.split(
-                                ","
-                            );
+                            const templistOfFriends = result[0].friends.split(",");
                             templistOfFriends.forEach((element) => {
                                 finalList.push({
                                     id: element.split(":")[0],

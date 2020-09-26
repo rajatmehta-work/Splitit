@@ -8,19 +8,10 @@ router.post("/signup", authcontroller.signup);
 router.post("/login", authcontroller.login);
 router.post("/acceptInvitation", authcontroller.acceptInvitation);
 router.post("/declineInvitation", authcontroller.declineInvitation);
-router.post(
-    "/addNewGroup",
-    [
-        check("groupName", "Enter group Name").isLength({ min: 1 }),
-        check("groupFriendId", "Please Select Friends").isLength({ min: 1 }),
-    ],
-    authcontroller.addnewgroup
-);
-router.post(
-    "/sendInvitationfromaddGroup",
-    authcontroller.sendInvitationfromaddGroup
-);
+router.post("/addNewGroup", middleware, [check("groupName", "Enter group Name").isLength({ min: 1 }), check("groupFriendId", "Please Select Friends").isLength({ min: 1 }),], authcontroller.addnewgroup);
+router.post("/sendInvitationfromaddGroup", authcontroller.sendInvitationfromaddGroup);
 router.post("/addexpenses", middleware, authcontroller.addexpenses);
+router.post("/settleup", middleware, authcontroller.settleup)
 function middleware(req, res, next) {
     const authHeader = req.headers.cookie;
     if (authHeader) {

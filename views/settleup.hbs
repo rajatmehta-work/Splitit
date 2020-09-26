@@ -1,42 +1,80 @@
-<div class=" m-2 d-flex justify-content-center">
-    <form>
-        <div class="form-group">
-            <label> Enter Username</label>
-            <input id="settle_username" type="text" class="form-control">
+{{#alertForSettleUp}}
+<div id="invitepopup2" class="alert alert-success">
+    <center>{{this}}</center>
+</div>
+{{/alertForSettleUp}}
+<div class="row">
+    <div class="col-7 m-2 d-flex justify-content-center">
+        <form id="form1" action="/auth/settleup" method="post">
 
-        </div>
-        <div class="form-group">
-            <small>You Owe </small><small id=settle_owe_money>45$</small>
-        </div>
-
-        <div class="form-group">
-
-            <div class="d-flex">
-                <div>
-                    <button class="btn btn-sm " style="border:1px solid #00FF00;" id="show_expenses_date">Date</button>
-                </div>
+            <div class="form-group">
+                <small>You Owe </small><small id=settle_owe_money>₹{{owe}}</small>
             </div>
-            <hr>
-            <center><small id="show_ammount_per_person"></small></center>
 
-        </div>
-        <div class="form-group">
-            <div class="d-flex">
-                <h2>$ </h2>
-                <input type="number" id="settle_paying_money" class="form-control">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="d-flex flex-row-reverse">
-                <div>
-                    <button type="submit" class="btn btn-medium" style="background-color: #00FF00;">Save</button>
+            <div class="form-group">
+
+                <div class="d-flex">
+                    <div>
+                        <button class="btn btn-sm " style="border:1px solid #00FF00;"
+                            id="show_expenses_date">{{date}}</button>
+                    </div>
                 </div>
-                <div class="">
-                    <a href="Dashboard.html" class="btn btn-sm" style="color: #00FF00;">Cancel</a>
-                </div>
+                <hr>
+                <center><small id="show_ammount_per_person"></small></center>
 
             </div>
-        </div>
-    </form>
+            <div class="form-group">
+                <div class="d-flex">
+                    <h2>$ </h2>
+                    <input form="form1" type="number" min="0.00" name="Money" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="d-flex flex-row-reverse">
+                    <div>
+                        <button type="submit" class="btn btn-medium" style="background-color: #00FF00;">Save</button>
+                    </div>
+                    <div class="">
+                        <a href="../Dashboard" class="btn btn-sm" style="color: #00FF00;">Cancel</a>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class=" col-lg-4 card mr-5 mt-2" id="show_friends" style="border-radius: solid 1px black;">
+        <h5>Your Friends</h5>
+        <img class=" card-img-top" style="height:200px" src="img\settleup2.jpg" alt="friend">
+
+        {{#if friendsList}}
+        {{#gtlength friendsList.length}}
+        <ul class="card example-1 list-group list-group-flush square scrollbar-dusty-grass square thin">
+            {{else}}
+            <ul class=" card list-group list-group-flush">
+                {{/gtlength}}
+
+                {{#each friendsList}}
+
+                <li class="list-group-item">{{this.name}} <input type="radio" form="form1" name="settleUpFriend"
+                        value={{this.id}}>
+                </li>
+
+                {{/each}}
+
+
+            </ul>
+
+        </ul>
+        {{else}}
+        <li class="list-group-item">No Friends</li>
+        {{/if}}
+    </div>
 
 </div>
+</div>
+
+</div>
+<script>
+
+</script>

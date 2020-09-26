@@ -5,7 +5,10 @@ const bcry = require("bcryptjs");
 const path = require("path");
 const { check, validationResult } = require("express-validator");
 const { resolve } = require("path");
-const { reject } = require("async");
+const { reject, sortBy } = require("async");
+const { group } = require("console");
+const e = require("express");
+const { send } = require("process");
 
 const db = sql.createConnection({
     host: process.env.DATABASE_HOST,
@@ -187,9 +190,9 @@ exports.acceptInvitation = (req, res) => {
                 );
                 console.log(
                     "printing acceptInvi users by id" +
-                        currUser +
-                        " and name" +
-                        currUserName
+                    currUser +
+                    " and name" +
+                    currUserName
                 );
                 console.log("friendId" + friendId);
                 console.log("friendname" + friendName);
@@ -293,7 +296,7 @@ exports.addnewgroup = (req, res) => {
         if (err.array().length == 2) {
             return res.redirect(
                 "../addgroup?alertForGroup=" +
-                    "Please Add Friends and Enter Group Name"
+                "Please Add Friends and Enter Group Name"
             );
         } else if (err.array().param === "checkbox") {
             return res.redirect(
@@ -366,16 +369,260 @@ exports.addexpenses = (req, res) => {
         );
     })
         .then((value) => {
+            // array of all gid
             const group_memberIDArray = value.group_member.split(",");
-            return new Promise((resolve, reject) => {
-                db.query(
-                    "update sp_users set totalMoney =totalMoney case when id is currUser then + ? else -"
-                );
-            });
+
+            for (var currId = 0; currId < group_memberIDArray.length; currId++) {
+                group_memberIDArray[currId] -= "0";
+            }
+            // removing curruser
+            var index = group_memberIDArray.indexOf(currUser);
+            if (index > -1) {
+                group_memberIDArray.splice(index, 1);
+            }
+            var perPersonMoney = req.body.ammount / group_memberIDArray.length;
+            index = group_memberIDArray.indexOf(0);
+            group_memberIDArray.splice(index, 1);
+
+            // making array of all
+            const group_memberIDArray2 = value.group_member.split(",");
+            for (var currId = 0; currId < group_memberIDArray2.length; currId++) {
+                group_memberIDArray2[currId] -= "0";
+            }
+            // removing 0
+            index = group_memberIDArray2.indexOf(0);
+            group_memberIDArray2.splice(index, 1);
+            console.log([
+                currUser,
+                perPersonMoney * group_memberIDArray.length,
+                group_memberIDArray,
+                perPersonMoney,
+                group_memberIDArray,
+                perPersonMoney,
+                currUser,
+                currUser,
+                perPersonMoney * group_memberIDArray.length,
+                group_memberIDArray,
+                group_memberIDArray2,
+            ]);
+            return [value, group_memberIDArray, perPersonMoney]
+
         })
+        .then(([value, group_memberIDArray, perPersonMoney]) => {
+            for (var currId = 0; currId < group_memberIDArray.length; currId++) {
+                db.query(
+                    "insert into sp_transaction (description,uid,fid,gid, ammount) values(?,?,?,?,?)",
+                    [
+                        req.body.description,
+                        currUser,
+                        group_memberIDArray[currId],
+                        req.body.groupId,
+                        perPersonMoney,
+                    ],
+                    (err, res) => { if (err) console.log(err) }
+                );
+            }
+            return ([perPersonMoney, group_memberIDArray])
+        }).then(([perPersonMoney, group_memberIDArray]) => {
+            // updating ammount of groupid
+            db.query("update sp_group set totalTransaction =totalTransaction+? where gid =?",
+                [req.body.ammount, req.body.groupId], (err, res) => {
+                    if (err) console.log(err)
+                })
+            return ([perPersonMoney, group_memberIDArray])
+
+
+
+        }).then(([perPersonMoney, group_memberIDArray]) => {
+            Promise.all([fix(group_memberIDArray, perPersonMoney, currUser)]).then(() => {
+                return res.redirect("../Dashboard");
+            })
+
+        })
+
         .catch((err) => {
             console.log(err);
         });
 
-    return res.redirect("../Dashboard");
+
 };
+
+
+async function updateBkaya(group_memberIDArray, perPersonMoney, currUser, currId, uidFid) {
+    return new Promise((resolve, reject) => {
+        db.query("update sp_bkaya set  amount=amount+ case when uid=? and fid=? then -? when fid=? and uid =? then ? end where uid in (?) and fid in (?)",
+            [
+                currUser,
+                group_memberIDArray[currId],
+                perPersonMoney,
+                currUser,
+                group_memberIDArray[currId],
+                perPersonMoney,
+                uidFid,
+                uidFid
+
+            ],
+            (err, ress) => {
+                if (err) console.log(err)
+
+
+
+                if (ress.affectedRows === 0) {
+
+                    db.query("insert into sp_bkaya set ?",
+                        [{
+                            uid: currUser,
+                            fid: group_memberIDArray[currId],
+                            amount: -perPersonMoney
+                        }], (err, resss) => {
+
+                            db.query("insert into sp_bkaya set ?",
+                                [{
+                                    fid: currUser,
+                                    uid: group_memberIDArray[currId],
+                                    amount: perPersonMoney
+                                }], (err, resss) => {
+                                    if (err) console.log(err)
+                                    resolve(null)
+                                })
+
+                        })
+
+
+                } else {
+                    resolve(null);
+                }
+
+
+            }
+        )
+    })
+}
+
+async function fix(group_memberIDArray, perPersonMoney, currUser) {
+
+    for (var currId = 0; currId < group_memberIDArray.length; currId++) {
+        var uidFid = [group_memberIDArray[currId], currUser]
+        await updateBkaya(group_memberIDArray, perPersonMoney, currUser, currId, uidFid)
+
+    }
+
+    console.log("exiting from db")
+    return;
+
+}
+exports.settleup = (req, res) => {
+    const senderId = jwt.verify(req.headers.cookie.split("=")[1], process.env.JWT_SECRET).id
+    console.log(req.body)
+    if (req.body.Money === '' && req.body.settleUpFriend === undefined) {
+        return res.redirect("../settleup?alertForSettleUp=" + "Select Friend And Enter Money")
+    }
+    else if (req.body.Money === '') {
+        return res.redirect("../settleup?alertForSettleUp=" + "Enter Money")
+    }
+    else if (req.body.settleUpFriend === undefined) {
+        return res.redirect("../settleup?alertForSettleUp=" + "Select Friend")
+    }
+    else {
+        const Money = req.body.Money;
+        const RecieverId = req.body.settleUpFriend
+        // for sender settling sp_users owe,owed,totalAmmount
+        const promisekr = new Promise((resolve, reject) => {
+            // db.query("select owe from sp_users where id =?", (senderId), (err, res) => {
+            //     if (err) throw err;
+            //     resolve(res[0].owe)
+            // })
+
+
+
+            // })
+
+            // .then(owe => {
+            //     if (owe >= Money) {
+            //         db.query("update sp_users set owe=owe-? where id=?", [Money, senderId], (err, res) => {
+
+            //         })
+            //     }
+            //     else {
+            //         const rest = Money - owe
+            //         db.query("update sp_users set owe=?,totalMoney=totalMoney+?,owed=owed+? where id=?", [0, rest, rest, senderId], (err, res) => {
+            //             if (err) throw err;
+
+            //         })
+            //     }
+            //     return;
+            // })
+            // / for reciever settling sp_users owe,owed,totalAmmount 
+            // .then(() => {
+
+            //     db.query("update sp_users set totalMoney=totalMoney-?,owed=owed- case when owed>0? where id=?", [Money, Money, RecieverId], (err, res) => {
+            //         if (err) throw err;
+
+            //     })
+            // })
+            // // updating bkaya of sender
+            // .then(() => {
+            var uidFid = [senderId, RecieverId]
+            db.query("update sp_bkaya set  amount=amount+ case when uid=? and fid=? then -? when fid=? and uid =? then ? end where uid in (?) and fid in (?)",
+                [
+                    senderId,
+                    RecieverId,
+                    Money,
+                    senderId,
+                    RecieverId,
+                    Money,
+                    uidFid,
+                    uidFid
+
+                ],
+                (err, ress) => {
+                    if (err) console.log(err)
+
+
+                    if (ress.affectedRows === 0) {
+                        db.query("insert into sp_bkaya set ?",
+                            [{
+                                uid: senderId,
+                                fid: RecieverId,
+                                amount: -Money
+                            }], (err, resss) => {
+                                if (err) console.log(err)
+
+                            })
+                        db.query("insert into sp_bkaya set ?",
+                            [{
+                                fid: senderId,
+                                uid: RecieverId,
+                                amount: Money
+                            }], (err, resss) => {
+                                if (err) console.log(err)
+
+                            })
+
+                    }
+
+                    return;
+
+                })
+
+        })
+            // settleuptransaction
+            .then(() => {
+                db.query("insert into sp_settelup_transaction set ?", { uid: senderId, fid: RecieverId, amount: Money }, (err, res) => {
+
+                })
+                return;
+            })
+            .catch(value => {
+                console.log(value)
+            })
+        return res.redirect("../Dashboard?successfullySent=" + "SuccessfullySent");
+
+
+
+
+    }
+
+
+
+}

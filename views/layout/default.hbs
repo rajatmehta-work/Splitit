@@ -17,9 +17,9 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="login.css">
     <link rel="stylesheet" href="scrollbar.css">
-    <title>Dashboard</title>
-    <style>
 
+    <style>
+        body {}
     </style>
 </head>
 
@@ -90,6 +90,7 @@
 
 
         </nav>
+
     </header>
 
     <div class="container">
@@ -105,7 +106,11 @@
             <center>{{selectGroup}}</center>
         </div>
         {{/if}}
-
+        {{#if successfullySent}}
+        <div id="invitepopup2" class="alert alert-success">
+            <center>{{successfullySent}}</center>
+        </div>
+        {{/if}}
         {{{body}}}
 
 
@@ -175,8 +180,6 @@
 
         }
         { {#if message } }
-
-
         window.onload = function () {
             console.log("entered")
             setTimeout("hideinvitepopup('invitepopup')", 3000);
@@ -184,7 +187,6 @@
         {
             {
                 /if}}
-
                 { {#if successfullyAddedGroup } }
                 window.onload = function () {
                     console.log("entered1")
@@ -198,9 +200,15 @@
                             console.log("entered1")
                             setTimeout("hideinvitepopup('invitepopup2')", 3000);
                         }
-                        { { /if}}
-
-
+                        {
+                            {
+                                /if}}
+                                { {#if alertForGroup } }
+                                window.onload = function () {
+                                    console.log("entered1")
+                                    setTimeout("hideinvitepopup('invitepopup2')", 3000);
+                                }
+                                { { /if}}
     </script>
 
 </body>

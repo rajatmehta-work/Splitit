@@ -76,15 +76,20 @@
                 <div class=" m-2 d-flex justify-content-between">
                     <div>
                         <small style="color: black;">total balance</small>
-                        <h6 id="showtotalbalance">+123$</h6>
+                        {{#gt totalBalance -1}}
+                        <h6 id="showtotalbalance">+{{totalBalance}}₹</h6>
+                        {{else}}
+                        <h6 id="showtotalbalance">{{totalBalance}}₹</h6>
+                        {{/gt}}
+
                     </div>
                     <div>
                         <small style="color: black;">You Owe</small>
-                        <h6 id="showowebalance">123$</h6>
+                        <h6 id="showowebalance">{{owe}}₹</h6>
                     </div>
                     <div>
                         <small style="color: black;">You are Owed</small>
-                        <h6 id="showowedbalance">123$</h6>
+                        <h6 id="showowedbalance">{{owed}}₹</h6>
                     </div>
                 </div>
 

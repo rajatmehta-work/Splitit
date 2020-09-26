@@ -17,7 +17,7 @@
         </div>
         <div class="form-group col-lg-6">
             <br>
-            <u><a onclick="addInviteField()" style="color: #00FF00;">invite friend</a></u>
+            <a href="javascript:addInviteField()" style="color: #00FF00;">Invite friend</a></u>
             <form method="POST" action="/auth/sendInvitationfromaddGroup">
 
                 <div class="form-group" id="addInviteFieldId" style="display:none">
@@ -47,7 +47,7 @@
     <div class="form-group col-lg-4 ">
 
 
-        <p>GROUP MEMBERS</p>
+        <h3>Friends</h3>
         <div class="card ">
             <img class=" card-img-top" style="height:250px" src="img\cute_monsters.jpg" alt="friend">
             <div class="card example-1 square scrollbar-dusty-grass square thin">
@@ -88,85 +88,14 @@
     </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script>
-    function hideinvitepopup(id) {
-        document.getElementById(id).style.display = "none";
+    function addInviteField() {
+        console.log("entered")
+        if (document.getElementById("addInviteFieldId").style.display !== 'block')
+            document.getElementById("addInviteFieldId").style.display = 'block'
+        else {
+            document.getElementById("addInviteFieldId").style.display = 'none'
+        }
 
-    }
-    { {#if alertForGroup } }
-    window.onload = function () {
-        console.log("entered1")
-        setTimeout("hideinvitepopup('invitepopup2')", 3000);
-    }
-    {
-        {
-            /if}}
-
-            {
-                {
-                    !-- function validDate() {
-                        var values = document.forms["form1"]["groupName"].value
-                        if (values === "") {
-                            alert("Enter the Group Name")
-                            console.log("en")
-                            return false;
-                        }
-                        return true;
-                    } --}
-            }
-            function hideinvitepopup(id) {
-                document.getElementById(id).style.display = "none";
-
-            }
-
-            { {#if message } }
-
-
-            window.onload = function () {
-                console.log("entered")
-                setTimeout("hideinvitepopup('invitepopup')", 3000);
-            }
-            {
-                {
-                    /if}}
-
-                    function addInviteField() {
-
-                        if (document.getElementById("addInviteFieldId").style.display !== 'block')
-                            document.getElementById("addInviteFieldId").style.display = 'block'
-                        else {
-                            document.getElementById("addInviteFieldId").style.display = 'none'
-                        }
-                        console.log(temparray)
-                    }
-
+    } 
 </script>
