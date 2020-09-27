@@ -7,8 +7,10 @@ Technologies used:𝐍𝐨𝐝𝐞.𝐣𝐬,𝐄𝐱𝐩𝐫𝐞𝐬𝐬,𝐉�
 
  
 ### Dashboard
-   The Dashboard show all transactions which are done in group and in money transaction between user and another user.
-   It also show all the groups in which user is member.
-   It also show all friends of User.
+   The Dashboard show all transactions which are done in groups and  between user and another user.
+   It show all the groups in which user is member.
+   It show all friends of User.
    User can also send friends request to existing user in DB on dashboard.
-   It also show total balance,owe,owed which calculated on the basis of transaction occur.
+   It also show total balance,owe,owed which calculated on the basis of transaction done.
+
+<img src = "public\readmeImg\Screenshot (26).png" width="70%">
