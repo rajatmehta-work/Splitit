@@ -5,10 +5,19 @@ Technologies used:𝐍𝐨𝐝𝐞.𝐣𝐬,𝐄𝐱𝐩𝐫𝐞𝐬𝐬,𝐉�
 <img src = "public\readmeImg\Screenshot (31).png" width="50%"><img src = "public\readmeImg\Screenshot (32).png" width="50%">
 <img src = "public\readmeImg\Screenshot (33).png" width="50%">
 
+<<<<<<< HEAD
 ### Dashboard
    The Dashboard show all transactions which are done in group and in money transaction between user and another user.
    It also show all the groups in which user is member.
    It also show all friends of User.
    User can also send friends request to existing user in DB on dashboard.
    It also show total balance,owe,owed which calculated on the basis of transaction occur.
+=======
+###Dashboard
+The Dashboard show all transactions which are done in group and in money transaction between user and another user.
+It also show all the groups in which user is member.
+It also show all friends of User.
+User can also send friends request to existing user in DB on dashboard.
+It also show total balance,owe,owed which calculated on the basis of transaction occur.
+>>>>>>> ff54fbda212fe6914ce27c767baeca154c9f07ff
 
