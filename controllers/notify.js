@@ -98,7 +98,7 @@ exports.showNotifications = (req, res) => {
                     const query2 = "select friends from sp_users where id=" + curr_user;
                     const groupList = groupNames;
                     const query4 = "select distinct(date),COUNT(case when uid=" + curr_user + " then date else null end) as sender,COUNT(case when fid=" + curr_user + " then date else null end) as receiver ,(case when uid=" + curr_user + " then fid when fid=" + curr_user + " then uid end) as name ,gid,description,ammount from sp_transaction  where uid=" + curr_user + " or fid=" + curr_user + " GROUP by date order by date desc"
-                    const query5 = "select uidName,fidName, (case when uid=" + curr_user + " then 1 when fid =" + curr_user + " then 0 end) as status,date,amount from sp_settelup_transaction where uid=" + curr_user + " or fid=" + curr_user
+                    const query5 = "select uidName,fidName, (case when uid=" + curr_user + " then 1 when fid =" + curr_user + " then 0 end) as status,date,amount from sp_settelup_transaction where uid=" + curr_user + " or fid=" + curr_user + " order by date desc"
                     if (groupList !== null) {
                         for (var currGid = 0; currGid < groupList.length; currGid++) {
                             map.set(groupList[currGid].gid, groupList[currGid].group_name);

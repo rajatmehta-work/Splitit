@@ -9,6 +9,7 @@ const { reject, sortBy } = require("async");
 const { group } = require("console");
 const e = require("express");
 const { send } = require("process");
+const { POINT_CONVERSION_COMPRESSED } = require("constants");
 
 const db = sql.createConnection({
     host: process.env.DATABASE_HOST,
@@ -535,7 +536,7 @@ exports.settleup = (req, res) => {
         const RecieverName = req.body.settleUpFriend.split(",")[1]
 
         // for sender settling sp_users owe,owed,totalAmmount
-        const promisekr = new Promise((resolve, reject) => {
+        const promise1 = new Promise((resolve, reject) => {
 
             var uidFid = [senderId, RecieverId]
             db.query("update sp_bkaya set  amount=amount+ case when uid=? and fid=? then -? when fid=? and uid =? then ? end where uid in (?) and fid in (?)",
@@ -582,19 +583,22 @@ exports.settleup = (req, res) => {
 
 
         })
-            // settleuptransaction
-            .then(value => {
-
-                db.query("insert into sp_settelup_transaction set ?", { uid: senderId, fid: RecieverId, amount: Money, uidName: sendername, fidName: RecieverName }, (err, res) => {
-                    if (err) throw err;
-
-                })
-                return res.redirect("../Dashboard?successfullySent=" + "SuccessfullySent");
-
+        const promise2 = new Promise((resolve, reject) => {
+            db.query("insert into sp_settelup_transaction set ?", { uid: senderId, fid: RecieverId, amount: Money, uidName: sendername, fidName: RecieverName, date: new Date() }, (err, res) => {
+                if (err) console.log(err)
+                resolve(null)
             })
-            .catch(value => {
-                console.log(value)
-            })
+        })
+        Promise.all([promise1, promise2]).then(value => {
+            return res.redirect("../Dashboard?successfullySent=" + "SuccessfullySent");
+        })
+
+
+
+
+
+
+
 
 
 
