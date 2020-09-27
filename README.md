@@ -13,7 +13,6 @@ Splitit is a website for splitting the bill, expenses between friends, roommates
   * User can also send friends request to existing user in DB on dashboard.
   * It also show total balance,owe,owed which calculated on the basis of transaction done.
   * User can accept or decline the friend request.
-
     <img src = "public\readmeImg\Screenshot (261).png" width="100%">
 ### Add Group
    * User can create a new Group by selecting their friends or by sending friend request.
@@ -21,12 +20,10 @@ Splitit is a website for splitting the bill, expenses between friends, roommates
 ### Add Expenses
    * User can add expenses by selecting group .
    * By clicking save button all transaction table will update which is handle by **Node.js**
-
     <img src = "public\readmeImg\Screenshot (29).png" width="100%">
  
 ### Account
    * View and edit Personal profile Details  
    * User can see total Transaction count.
-
     <img src = "public\readmeImg\Screenshot (30).png" width="100%">
  
