@@ -5,8 +5,7 @@ Technologies used:𝐍𝐨𝐝𝐞.𝐣𝐬,𝐄𝐱𝐩𝐫𝐞𝐬𝐬,𝐉�
 <img src = "public\readmeImg\Screenshot (31).png" width="50%"><img src = "public\readmeImg\Screenshot (32).png" width="50%">
 <img src = "public\readmeImg\Screenshot (33).png" width="50%">
 
- 
-### Dashboard
+ ### Dashboard
   * The Dashboard show all transactions which are done in groups and  between user and another user.
   * It show all the groups in which user is member.
   * It show all friends of User.
@@ -19,6 +18,7 @@ Technologies used:𝐍𝐨𝐝𝐞.𝐣𝐬,𝐄𝐱𝐩𝐫𝐞𝐬𝐬,𝐉�
 ### Add Expenses
    * User can add expenses by selecting group .
    * By clicking save button all transaction table will update which is handle by ####Node.js
+ 
     <img src = "public\readmeImg\Screenshot (29).png" width="100%">
 ### Friend Requests
    * User can accept or decline the friend request.
@@ -27,3 +27,5 @@ Technologies used:𝐍𝐨𝐝𝐞.𝐣𝐬,𝐄𝐱𝐩𝐫𝐞𝐬𝐬,𝐉�
    * View and edit Personal profile Details  
    * View uploaded Profile Pic
    * User can see total Transaction count.
+    <img src = "public\readmeImg\Screenshot (29).png" width="100%">
+ 
