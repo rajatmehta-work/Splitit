@@ -12,7 +12,7 @@ Technologies used:𝐍𝐨𝐝𝐞.𝐣𝐬,𝐄𝐱𝐩𝐫𝐞𝐬𝐬,𝐉�
   * User can also send friends request to existing user in DB on dashboard.
   * It also show total balance,owe,owed which calculated on the basis of transaction done.
   * User can accept or decline the friend request.
-    <img src = "public\readmeImg\Screenshot (26).png" width="100%">
+    <img src = "public\readmeImg\Screenshot (261).png" width="100%">
 ### Add Group
    * User can create a new Group by selecting their friends or by sending friend request.
     <img src = "public\readmeImg\Screenshot (28).png" width="100%">
@@ -25,5 +25,5 @@ Technologies used:𝐍𝐨𝐝𝐞.𝐣𝐬,𝐄𝐱𝐩𝐫𝐞𝐬𝐬,𝐉�
    * View and edit Personal profile Details  
    * View uploaded Profile Pic
    * User can see total Transaction count.
-    <img src = "public\readmeImg\Screenshot (29).png" width="100%">
+    <img src = "public\readmeImg\Screenshot (30).png" width="100%">
  
