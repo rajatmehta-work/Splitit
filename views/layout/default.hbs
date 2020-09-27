@@ -17,6 +17,7 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="login.css">
     <link rel="stylesheet" href="scrollbar.css">
+    <link rel="stylesheet" href="account.css">
 
     <style>
         body {}
@@ -24,74 +25,79 @@
 </head>
 
 <body>
-    <header class="header">
-        <nav class="navbar navbar-expand-md navbar-dark" style="background-color:black;">
-            <a class="navbar-brand" href="/Dashboard">
-                <img src="/img/logo.jpg" width="45" alt="" class="d-inline-block align-middle mr-2">
+    <div class="container-fluid ">
+        <header class="header">
+            <nav class="navbar navbar-expand-md navbar-dark" style="background-color:black;">
+                <a class="navbar-brand" href="/Dashboard">
+                    <img src="/img/logo.jpg" width="45" alt="" class="d-inline-block align-middle mr-2">
 
-                <span class="font-weight-bold" style="color: #00FF00;">SpLitIt</span>
-            </a>
+                    <span class="font-weight-bold" style="color: #00FF00;">SpLitIt</span>
+                </a>
 
-            <div class="ml-auto">
-                <span class="dropdown open">
-                    <button style="color:#00FF00" class="btn  btn-sm m-3 dropdown-toggle" type="button" id="profile_id"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Profile
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="triggerId">
-                        <a class="dropdown-item" href="/account">Your Account</a>
-                        <a class="dropdown-item" href="/auth/logout">Log Out</a>
-
-                    </div>
-                </span>
-                <span class="dropdown open">
+                <div class="ml-auto">
                     {{#if ress}}
+                    <span class="dropdown open">
 
-                    <button style="color: #00FF00;" class="btn btn-sm dropdown-toggle" type="button"
-                        aria-expanded="false" data-toggle="dropdown" aria-haspopup="true">Friend Requests(<span
-                            id="notification">{{ress.length }}</span>)</button>
-                    <div class="dropdown-menu" style="padding: 0%;">
-                        <div class="dropdown-item">
-                            {{#each ress}}
 
-                            <div class="row ">
-                                <div class="col-sm-5" style="margin:0%;padding: 0%;font-size:60%">{{this.name}}
+                        <button style="color: #00FF00;" class="btn btn-sm dropdown-toggle" type="button"
+                            aria-expanded="false" data-toggle="dropdown" aria-haspopup="true">Friend Requests(<span
+                                id="notification">{{ress.length }}</span>)</button>
+                        <div class="dropdown-menu" style="padding: 0%;">
+                            <div class="dropdown-item">
+                                {{#each ress}}
+
+                                <div class="row ">
+                                    <div class="col-sm-5" style="margin:0%;padding: 0%;font-size:60%">{{this.name}}
+                                    </div>
+                                    <div class="col-sm-2" style="margin:0%; padding:0%">
+                                        <form action="/auth/acceptInvitation" method="POST">
+                                            <input type="hidden" name="accept" value={{this.request_id}}>
+                                            <input type="hidden" name="name" value={{this.name}}>
+
+                                            <button class=" btn btn-sm "
+                                                style="font-size:70%;width:20%; height:10%; background-color:#00FF00">✓</button>
+                                        </form>
+                                    </div>
+                                    <div class="col-sm-2" style="margin:0%;">
+                                        <form action="/auth/declineInvitation" method="POST">
+                                            <input type="hidden" name="accept" value={{this.request_id}}>
+                                            <button class=" btn btn-sm "
+                                                style="font-size:60%;width:20%; height:10%; background-color:#FF0000">
+                                                ✘</button>
+                                        </form>
+                                    </div>
+
+
+                                    </li>
                                 </div>
-                                <div class="col-sm-2" style="margin:0%; padding:0%">
-                                    <form action="/auth/acceptInvitation" method="POST">
-                                        <input type="hidden" name="accept" value={{this.request_id}}>
-                                        <input type="hidden" name="name" value={{this.name}}>
-
-                                        <button class=" btn btn-sm "
-                                            style="font-size:70%;width:20%; height:10%; background-color:#00FF00">✓</button>
-                                    </form>
-                                </div>
-                                <div class="col-sm-2" style="margin:0%;">
-                                    <form action="/auth/declineInvitation" method="POST">
-                                        <input type="hidden" name="accept" value={{this.request_id}}>
-                                        <button class=" btn btn-sm "
-                                            style="font-size:60%;width:20%; height:10%; background-color:#FF0000">
-                                            ✘</button>
-                                    </form>
-                                </div>
+                                {{/each}}
 
 
-                                </li>
+
                             </div>
-                            {{/each}}
-
-
                             {{/if}}
                         </div>
-                    </div>
 
-                </span>
-            </div>
+                    </span>
+                    <span class="dropdown open mr-4">
+                        <button style="color:#00FF00" class="btn  btn-sm m-3 dropdown-toggle" type="button"
+                            id="profile_id" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{name}}
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="triggerId">
+                            <a class="dropdown-item" href="/account">Your Account</a>
+                            <a class="dropdown-item" href="/auth/logout">Log Out</a>
+
+                        </div>
+                    </span>
+
+                </div>
 
 
-        </nav>
+            </nav>
 
-    </header>
+        </header>
+    </div>
 
     <div class="container">
 
@@ -145,7 +151,7 @@
 
 
     <div>
-        <footer class="footer">
+        {{!-- <footer class="footer">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 680 91"
                 class="w-full">
                 <path fill="#00FF00" d="M349 76.499L286 113V40z"></path>
@@ -166,7 +172,7 @@
                 <path fill="black" d="M166 93H70V38z"></path>
                 <path fill="#00FF00" d="M70 38v55h-96z"></path>
             </svg>
-        </footer>
+        </footer> --}}
 
     </div>
 

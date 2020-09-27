@@ -17,6 +17,7 @@
     "express-validator": "^6.6.1",
     "flash": "^1.1.0",
     "handlebars-helpers": "^0.10.0",
+    "hashmap": "^2.4.0",
     "hbs": "^4.1.1",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",

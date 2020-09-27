@@ -75,7 +75,7 @@
             <div class="col">
                 <div class=" m-2 d-flex justify-content-between">
                     <div>
-                        <small style="color: black;">total balance</small>
+                        <small style="color: black;">Total Balance</small>
                         {{#gt totalBalance -1}}
                         <h6 id="showtotalbalance">+{{totalBalance}}₹</h6>
                         {{else}}
@@ -94,43 +94,89 @@
                 </div>
 
             </div>
-        </div>
-        <div class="col-lg-3">
-            {{!-- <div class=" mt-3 card text-left">
+            <div class="row">
+                {{#gt groupTransaction.length 7}}
+
+                <div class="col card example-2   square scrollbar-dusty-grass square thin">
+                    {{else}}
+                    <div class=" col card">
+                        {{/gt }}
+                        <center>
+                            <label>Group Transactions</label>
+                        </center>
+
+                        {{#if groupTransaction}}
+                        {{#each groupTransaction}}
+                        <small>
+                            {{#gt this.sender 0}}
+
+                            <label> {{this.date}}</label>
+                            <p> <span style="color:seagreen ">You paid ₹<b>{{this.ammount}}</b></span> for
+                                <u>{{this.gid}}</u></p>
+                            {{else}}
+                            <label> {{this.date}}</label>
+                            <p> <span style="color:orangered;">You Recieved ₹<b>{{this.ammount}}</b></span> in
+                                <u>{{this.gid}}</u> </p>
+
+                            {{/gt}}
+                        </small>
+                        {{/each}}
+                        {{/if}}
+
+                    </div>
+                    <div class="col">
+                        <center>
+                            <label>SettleUp Transactions</label>
+                        </center>
+                        {{#if settleUpTransaction}}
+                        {{#each settleUpTransaction}}
+                        <label> {{this.date}}</label>
+                        <p>{{this.for}} You paid ₹<b>{{this.money}}</b> You lent {{this.perPerson}}</p>
+                        {{/each}}
+                        {{/if}}
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                {{!-- <div class=" mt-3 card text-left">
         <div class="card-body">
             <h4 class="card-title display-4">Rules</h4>
             <p class="card-text">Body</p>
         </div>
         </div> --}}
 
-            <div class="  card mr-5 mt-2" id="show_friends" style="border-radius: solid 1px black;">
-                <h5>Your Friends</h5>
-                {{#if friendsList}}
-                {{#gtlength friendsList.length}}
-                <div class="card example-1 square scrollbar-dusty-grass square thin">
-                    {{else}}
-                    <div class="card">
-                        {{/gtlength}}
+                <div class="  card mr-5 mt-2" id="show_friends" style="border-radius: solid 1px black;">
+                    <h5>Your Friends</h5>
+                    {{#if friendsList}}
+                    {{#gtlength friendsList.length}}
+                    <div class="card example-1 square scrollbar-dusty-grass square thin">
+                        {{else}}
+                        <div class="card">
+                            {{/gtlength}}
 
 
 
 
-                        <div class="card-group-flush">
+                            <div class="card-group-flush">
 
-                            {{#each friendsList}}
+                                {{#each friendsList}}
 
-                            <li class="list-group-item">{{this}}</li>
-                            {{/each}}
+                                <li class="list-group-item">{{this}}</li>
+                                {{/each}}
 
+
+                            </div>
 
                         </div>
+                        {{else}}
+                        <li class="list-group-item">No Friends</li>
+                        {{/if}}
+
 
                     </div>
-                    {{else}}
-                    <li class="list-group-item">No Friends</li>
-                    {{/if}}
-
-
                 </div>
             </div>
         </div>
+    </div>

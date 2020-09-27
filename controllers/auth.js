@@ -51,9 +51,7 @@ exports.login = async (req, res) => {
                         const token = jwt.sign(
                             { id, namee },
                             process.env.JWT_SECRET,
-                            {
-                                expiresIn: process.env.JWT_expiresIn,
-                            }
+                            { expiresIn: process.env.JWT_expiresIn }
                         );
                         // console.log(token);
                         const cookieOptions = {
@@ -119,6 +117,13 @@ exports.signup = (req, res) => {
         }
     );
 };
+exports.logout = (req, res) => {
+
+
+    res.cookie("jwt", "", { maxAge: 1 })
+    res.redirect("../login")
+
+}
 // handling send invitation to user
 exports.sendInvitation = (req, res) => {
     const { id, invite } = req.body;
@@ -392,19 +397,7 @@ exports.addexpenses = (req, res) => {
             // removing 0
             index = group_memberIDArray2.indexOf(0);
             group_memberIDArray2.splice(index, 1);
-            console.log([
-                currUser,
-                perPersonMoney * group_memberIDArray.length,
-                group_memberIDArray,
-                perPersonMoney,
-                group_memberIDArray,
-                perPersonMoney,
-                currUser,
-                currUser,
-                perPersonMoney * group_memberIDArray.length,
-                group_memberIDArray,
-                group_memberIDArray2,
-            ]);
+
             return [value, group_memberIDArray, perPersonMoney]
 
         })
@@ -435,6 +428,7 @@ exports.addexpenses = (req, res) => {
 
         }).then(([perPersonMoney, group_memberIDArray]) => {
             Promise.all([fix(group_memberIDArray, perPersonMoney, currUser)]).then(() => {
+                console.log("entering in returning ")
                 return res.redirect("../Dashboard");
             })
 
@@ -446,9 +440,8 @@ exports.addexpenses = (req, res) => {
 
 
 };
-
-
 async function updateBkaya(group_memberIDArray, perPersonMoney, currUser, currId, uidFid) {
+
     return new Promise((resolve, reject) => {
         db.query("update sp_bkaya set  amount=amount+ case when uid=? and fid=? then -? when fid=? and uid =? then ? end where uid in (?) and fid in (?)",
             [
@@ -511,6 +504,7 @@ async function fix(group_memberIDArray, perPersonMoney, currUser) {
     return;
 
 }
+
 exports.settleup = (req, res) => {
     const senderId = jwt.verify(req.headers.cookie.split("=")[1], process.env.JWT_SECRET).id
     console.log(req.body)

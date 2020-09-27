@@ -88,6 +88,11 @@
     width: 6px; }
     
     .example-1 {
-    position: relative;
-    overflow-y: scroll;
-    height: 200px; }
+        position: relative;
+        overflow-y: scroll;
+        height: 200px; 
+    }
+        .example-2 {
+            position: relative;
+            overflow-y: scroll;
+            height: 460px; }

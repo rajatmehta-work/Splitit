@@ -6,6 +6,7 @@ const authcontroller = require("../controllers/auth");
 router.post("/sendInvitation", middleware, authcontroller.sendInvitation);
 router.post("/signup", authcontroller.signup);
 router.post("/login", authcontroller.login);
+router.get("/logout", authcontroller.logout);
 router.post("/acceptInvitation", authcontroller.acceptInvitation);
 router.post("/declineInvitation", authcontroller.declineInvitation);
 router.post("/addNewGroup", middleware, [check("groupName", "Enter group Name").isLength({ min: 1 }), check("groupFriendId", "Please Select Friends").isLength({ min: 1 }),], authcontroller.addnewgroup);

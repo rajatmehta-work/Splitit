@@ -1,42 +1,103 @@
-<div class=" m-2 d-flex justify-content-center">
-    <form>
-        <div class="form-group">
-            <label> Enter Username</label>
-            <input id="settle_username" type="text" class="form-control">
+<div class="container emp-profile">
+    <form method="get" action="/auth/account">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
 
-        </div>
-        <div class="form-group">
-            <small>You Owe </small><small id=settle_owe_money>45$</small>
-        </div>
+                    <img style="height:200px;;" src="userImage/images1.png">
+                    <div class="file btn btn-lg btn-primary">
 
-        <div class="form-group">
-
-            <div class="d-flex">
-                <div>
-                    <button class="btn btn-sm " style="border:1px solid #00FF00;" id="show_expenses_date">Date</button>
+                        <input type="file" name="file" /> Change Photo
+                    </div>
                 </div>
             </div>
-            <hr>
-            <center><small id="show_ammount_per_person"></small></center>
+            <div class="col-md-6">
+                <div class="profile-head">
+                    <h4>{{name}}</h4>
+                    <br>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                aria-controls="home" aria-selected="true">About</a>
+                        </li>
 
-        </div>
-        <div class="form-group">
-            <div class="d-flex">
-                <h2>$ </h2>
-                <input type="number" id="settle_paying_money" class="form-control">
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile" />
             </div>
         </div>
-        <div class="form-group">
-            <div class="d-flex flex-row-reverse">
-                <div>
-                    <button type="submit" class="btn btn-medium" style="background-color: #00FF00;">Save</button>
-                </div>
-                <div class="">
-                    <a href="Dashboard.html" class="btn btn-sm" style="color: #00FF00;">Cancel</a>
-                </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-work">
+                    <u>
+                        <h4>Transactions</h4>
+                    </u>
+                    <br>
 
+                    <label>Total Transactions: {{totalTransactions}}</label>
+                    <br>
+                    <label>Total Balance: ₹{{totalBalance}}</label>
+                    <br>
+
+                    <label>Owe: ₹ {{owe}}</label>
+
+                    <br>
+                    <label>Owed: ₹ {{owed}}<label><br>
+
+
+                </div>
             </div>
-        </div>
+            <div class="col-md-8">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Name</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{name}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Email</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{email}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Total Friends</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{friends}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Total Friends Requests</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{friendsRequests}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Total Groups</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{groups}}</p>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
     </form>
-
 </div>
