@@ -20,4 +20,4 @@ Technologies used:𝐍𝐨𝐝𝐞.𝐣𝐬,𝐄𝐱𝐩𝐫𝐞𝐬𝐬,𝐉�
 ### Add Expenses
    * User can add expenses by selecting group .
    * By clicking save button all transaction table will update which is handle by ####Node.js
-<img src = "public\readmeImg\Screenshot (29).png" width="100%">
+ <img src = "public\readmeImg\Screenshot (29).png" width="100%">
