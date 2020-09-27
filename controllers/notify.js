@@ -21,6 +21,7 @@ exports.showNotifications = (req, res) => {
             return res.redirect("login");
         } else {
             var map = new HashMap()
+            var mapForIdNamme = new HashMap()
             const curr_user = jwt.verify(
                 req.headers.cookie.split("=")[1],
                 process.env.JWT_SECRET
@@ -32,7 +33,24 @@ exports.showNotifications = (req, res) => {
 
 
             console.table(curr_user);
+            const promisekrForIdName = new Promise((resolve, reject) => {
+                db.query(
+                    "select name,id from sp_users",
+                    (err, res) => {
 
+
+                        if (res.length === 0) {
+                            resolve(null);
+                        } else {
+                            for (var i = 0; i < res.length; i++) {
+                                mapForIdNamme.set(res[i].id, res[i].name)
+                            }
+
+                            resolve(null)
+                        }
+                    }
+                )
+            })
             // advantage of async.parrallel is both query will run parrallely such that response will quickier
             const promise1 = new Promise((resolve, reject) => {
                 var groupNameId;
@@ -79,7 +97,8 @@ exports.showNotifications = (req, res) => {
                     const query1 = "select  sp_users.name,sp_friend_requests.request_id  from sp_users inner join sp_friend_requests on sp_users.id=sp_friend_requests.request_id where sp_friend_requests.uid=" + curr_user;
                     const query2 = "select friends from sp_users where id=" + curr_user;
                     const groupList = groupNames;
-                    const query4 = "select distinct(date),COUNT(case when uid=" + curr_user + " then date else null end) as sender,COUNT(case when fid=" + curr_user + " then date else null end) as receiver ,gid,description,ammount from sp_transaction  where uid=" + curr_user + " or fid=" + curr_user + " GROUP by date order by date desc"
+                    const query4 = "select distinct(date),COUNT(case when uid=" + curr_user + " then date else null end) as sender,COUNT(case when fid=" + curr_user + " then date else null end) as receiver ,(case when uid=" + curr_user + " then fid when fid=" + curr_user + " then uid end) as name ,gid,description,ammount from sp_transaction  where uid=" + curr_user + " or fid=" + curr_user + " GROUP by date order by date desc"
+                    const query5 = "select uidName,fidName, (case when uid=" + curr_user + " then 1 when fid =" + curr_user + " then 0 end) as status,date,amount from sp_settelup_transaction where uid=" + curr_user + " or fid=" + curr_user
                     if (groupList !== null) {
                         for (var currGid = 0; currGid < groupList.length; currGid++) {
                             map.set(groupList[currGid].gid, groupList[currGid].group_name);
@@ -100,6 +119,9 @@ exports.showNotifications = (req, res) => {
                             },
                             function (callback) {
                                 db.query(query4, callback);
+                            },
+                            function (callback) {
+                                db.query(query5, callback);
                             }
 
                         ],
@@ -107,11 +129,19 @@ exports.showNotifications = (req, res) => {
 
                             for (var currGid = 0; currGid < results[3][0].length; currGid++) {
                                 results[3][0][currGid].gid = map.get(results[3][0][currGid].gid);
+                                results[3][0][currGid].name = mapForIdNamme.get(results[3][0][currGid].name);
                                 var tempDate = results[3][0][currGid].date.toString()
-                                results[3][0][currGid].date = tempDate.split("T")[0].split(" ")[1] + " " + tempDate.split("T")[0].split(" ")[2]
+                                results[3][0][currGid].date = tempDate.split("T")[0].split(" ")[1] + " " + tempDate.split("T")[0].split(" ")[2] + " (" + tempDate.split("T")[0].split(" ")[4] + ")"
                                 results[3][0][currGid].ammount = (results[3][0][currGid].ammount * (results[3][0][currGid].sender === 0 ? results[3][0][currGid].receiver : results[3][0][currGid].sender)).toFixed(2)
                             }
 
+
+
+                            for (var id = 0; id < results[4][0].length; id++) {
+                                var tempDate = results[4][0][id].date.toString()
+                                results[4][0][id].date = tempDate.split("T")[0].split(" ")[1] + " " + tempDate.split("T")[0].split(" ")[2]
+                                results[4][0][id].amount = results[4][0][id].amount.toFixed(2)
+                            }
                             if (results[2][0][0].owe === null) {
 
                                 results[2][0][0].owe = 0;
@@ -121,6 +151,7 @@ exports.showNotifications = (req, res) => {
                                     results[2][0][0].owed = 0;
                                 }
                             }
+
                             results[2][0][0].owe = results[2][0][0].owe.toFixed(2)
                             results[2][0][0].owed = -results[2][0][0].owed;
                             results[2][0][0].owed = results[2][0][0].owed.toFixed(2);
@@ -142,11 +173,10 @@ exports.showNotifications = (req, res) => {
                             } else {
                                 tempFriend = null;
                             }
-                            console.log("check message in show notifu");
-                            // console.log(results)
+
                             // console.log(tempFriend)
                             // console.log(req.query.successfullyAddedGroup)
-                            console.log(totalBalance)
+
 
                             if (tempFriend !== null && groupList !== null) {
                                 return res.render("Dashboard", {
@@ -161,7 +191,8 @@ exports.showNotifications = (req, res) => {
                                     owe: results[2][0][0].owe,
                                     owed: results[2][0][0].owed,
                                     name: curr_userName,
-                                    groupTransaction: results[3][0]
+                                    groupTransaction: results[3][0],
+                                    settleUpTransaction: results[4][0]
 
                                 });
                             } else if (tempFriend !== null) {
@@ -176,7 +207,8 @@ exports.showNotifications = (req, res) => {
                                     owe: results[2][0][0].owe,
                                     owed: results[2][0][0].owed,
                                     name: curr_userName,
-                                    groupTransaction: results[3][0]
+                                    groupTransaction: results[3][0],
+                                    settleUpTransaction: results[4][0]
 
                                     // groupList
                                 });
@@ -193,7 +225,8 @@ exports.showNotifications = (req, res) => {
                                     owe: results[2][0][0].owe,
                                     owed: results[2][0][0].owed,
                                     name: curr_userName,
-                                    groupTransaction: results[3][0]
+                                    groupTransaction: results[3][0],
+                                    settleUpTransaction: results[4][0]
 
                                 });
                             } else {
@@ -208,7 +241,8 @@ exports.showNotifications = (req, res) => {
                                     owe: results[2][0][0].owe,
                                     owed: results[2][0][0].owed,
                                     name: curr_userName,
-                                    groupTransaction: results[3][0]
+                                    groupTransaction: results[3][0],
+                                    settleUpTransaction: results[4][0]
 
                                 });
                             }

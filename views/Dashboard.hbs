@@ -35,12 +35,13 @@
 
                 <br>
                 <div class="card mr-5">
-                    <p style="background-color: black; color: #00FF00;"> <span class="ml-2"> Invite Friends</span></p>
+                    <p style="background-color: black; color:white;"> <span class="ml-2"> Invite Friends</span></p>
                     <form method="POST" action="/auth/sendInvitation">
                         <div class="form-group">
                             <input type="email" style="width:90%; margin:4px;" placeholder="enter an email"
                                 name="invite">
-                            <button style="background-color: #00FF00;width:fit-content;margin: 5px;" type="submit">Send
+                            <button class="btn-sm" style="background-color:orangered;width:fit-content;margin: 5px;"
+                                type="submit">Send
                                 Invite</button>
                             {{#if message}}
                             <div id="invitepopup" class="form-group">
@@ -62,13 +63,18 @@
             <div class="d-flex">
                 <div>
                     <form id="form1" method="get" action="/addexpenses">
-                        <button class=" display-4 btn btn-lg mt-1" style="background-color: #00FF00;">Add Expenses</a>
+                        <button class=" shadow example_a button_cont display-4    btn-lg mt-1"
+                            style="border-color: orangered;">
+                            Add
+                            Expenses
+                        </button>
                     </form>
 
 
                 </div>
                 <div class="ml-auto">
-                    <a href="/settleup" class="btn btn-lg   mt-1" style="background-color: #00FF00;">Settle Up</a>
+                    <a href="/settleup" class="shadow example_a button_cont btn btn-lg   mt-1"
+                        style="border-color:orangered ;">Settle Up</a>
                 </div>
             </div>
 
@@ -102,81 +108,106 @@
                     <div class=" col card">
                         {{/gt }}
                         <center>
-                            <label>Group Transactions</label>
-                        </center>
+                            <label> Group Transactions </label>
 
+                        </center>
+                        <hr>
                         {{#if groupTransaction}}
                         {{#each groupTransaction}}
                         <small>
                             {{#gt this.sender 0}}
-
-                            <label> {{this.date}}</label>
-                            <p> <span style="color:seagreen ">You paid ₹<b>{{this.ammount}}</b></span> for
-                                <u>{{this.gid}}</u></p>
+                            <small> {{this.date}}</small>
+                            <div class="shadow p-3 mb-2 bg-white rounded">
+                                <span style="color:seagreen ">You paid ₹<b>{{this.ammount}}</b></span> for
+                                <u>{{this.gid}}</u>
+                            </div>
                             {{else}}
-                            <label> {{this.date}}</label>
-                            <p> <span style="color:orangered;">You Recieved ₹<b>{{this.ammount}}</b></span> in
-                                <u>{{this.gid}}</u> </p>
+                            <small> {{this.date}}</small>
+                            <div class="shadow p-3 mb-2 bg-white rounded">
 
+                                <span style="color:orangered;">{{this.name}} paid you ₹<b>{{this.ammount}}</b></span> in
+                                <u>{{this.gid}}</u>
+                            </div>
                             {{/gt}}
                         </small>
                         {{/each}}
                         {{/if}}
 
                     </div>
-                    <div class="col">
-                        <center>
-                            <label>SettleUp Transactions</label>
-                        </center>
-                        {{#if settleUpTransaction}}
-                        {{#each settleUpTransaction}}
-                        <label> {{this.date}}</label>
-                        <p>{{this.for}} You paid ₹<b>{{this.money}}</b> You lent {{this.perPerson}}</p>
-                        {{/each}}
-                        {{/if}}
+                    {{#gt settleUpTransaction.length 7}}
+
+                    <div class="col card example-2   square scrollbar-dusty-grass square thin">
+                        {{else}}
+                        <div class=" col card">
+                            {{/gt }}
+                            <center>
+                                <label>SettleUp Transactions</label>
+                            </center>
+                            <hr>
+                            {{#if settleUpTransaction}}
+                            {{#each settleUpTransaction}}
+                            <small>
+                                <small> {{this.date}}</small>
+                                {{#eq this.status 1}}
+
+                                <div class="shadow p-3 mb-2 bg-white rounded">
+                                    <span style="color:seagreen "> You paid {{this.fidName}}
+                                        ₹<b>{{this.amount}}</b></span>
+                                </div>
+
+                                {{else}}
+                                <div class="shadow p-3 mb-2 bg-white rounded">
+                                    <span style="color:orangered;">{{this.uidName}} paid you
+                                        ₹<b>{{this.amount}}</b>{{this.reciever}}</span>
+                                </div>
+
+                                {{/eq}}
+                            </small>
+                            {{/each}}
+                            {{/if}}
 
 
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3">
-                {{!-- <div class=" mt-3 card text-left">
+                <div class="col-lg-3">
+                    {{!-- <div class=" mt-3 card text-left">
         <div class="card-body">
             <h4 class="card-title display-4">Rules</h4>
             <p class="card-text">Body</p>
         </div>
         </div> --}}
 
-                <div class="  card mr-5 mt-2" id="show_friends" style="border-radius: solid 1px black;">
-                    <h5>Your Friends</h5>
-                    {{#if friendsList}}
-                    {{#gtlength friendsList.length}}
-                    <div class="card example-1 square scrollbar-dusty-grass square thin">
-                        {{else}}
-                        <div class="card">
-                            {{/gtlength}}
+                    <div class="  card mr-5 mt-2" id="show_friends" style="border-radius: solid 1px black;">
+                        <h5>Your Friends</h5>
+                        {{#if friendsList}}
+                        {{#gtlength friendsList.length}}
+                        <div class="card example-1 square scrollbar-dusty-grass square thin">
+                            {{else}}
+                            <div class="card">
+                                {{/gtlength}}
 
 
 
 
-                            <div class="card-group-flush">
+                                <div class="card-group-flush">
 
-                                {{#each friendsList}}
+                                    {{#each friendsList}}
 
-                                <li class="list-group-item">{{this}}</li>
-                                {{/each}}
+                                    <li class="list-group-item">{{this}}</li>
+                                    {{/each}}
 
+
+                                </div>
 
                             </div>
+                            {{else}}
+                            <li class="list-group-item">No Friends</li>
+                            {{/if}}
+
 
                         </div>
-                        {{else}}
-                        <li class="list-group-item">No Friends</li>
-                        {{/if}}
-
-
                     </div>
                 </div>
             </div>
         </div>
-    </div>

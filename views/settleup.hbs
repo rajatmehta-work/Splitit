@@ -32,7 +32,9 @@
             <div class="form-group">
                 <div class="d-flex flex-row-reverse">
                     <div>
-                        <button type="submit" class="btn btn-medium" style="background-color: #00FF00;">Save</button>
+
+                        <button type="submit" class=" shadow example_a button_cont display-4    btn-sm mt-1"
+                            style="border-color: orangered;"> Save</button>
                     </div>
                     <div class="">
                         <a href="../Dashboard" class="btn btn-sm" style="color: #00FF00;">Cancel</a>
@@ -57,7 +59,7 @@
                 {{#each friendsList}}
 
                 <li class="list-group-item">{{this.name}} <input type="radio" form="form1" name="settleUpFriend"
-                        value={{this.id}}>
+                        value={{this.id}},{{this.name}}>
                 </li>
 
                 {{/each}}

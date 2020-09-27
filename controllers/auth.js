@@ -402,38 +402,12 @@ exports.addexpenses = (req, res) => {
 
         })
         .then(([value, group_memberIDArray, perPersonMoney]) => {
-            for (var currId = 0; currId < group_memberIDArray.length; currId++) {
-                db.query(
-                    "insert into sp_transaction (description,uid,fid,gid, ammount) values(?,?,?,?,?)",
-                    [
-                        req.body.description,
-                        currUser,
-                        group_memberIDArray[currId],
-                        req.body.groupId,
-                        perPersonMoney,
-                    ],
-                    (err, res) => { if (err) console.log(err) }
-                );
-            }
-            return ([perPersonMoney, group_memberIDArray])
-        }).then(([perPersonMoney, group_memberIDArray]) => {
-            // updating ammount of groupid
-            db.query("update sp_group set totalTransaction =totalTransaction+? where gid =?",
-                [req.body.ammount, req.body.groupId], (err, res) => {
-                    if (err) console.log(err)
-                })
-            return ([perPersonMoney, group_memberIDArray])
-
-
-
-        }).then(([perPersonMoney, group_memberIDArray]) => {
-            Promise.all([fix(group_memberIDArray, perPersonMoney, currUser)]).then(() => {
-                console.log("entering in returning ")
+            console.log("entering krau")
+            Promise.all([transactionFun(group_memberIDArray, req, currUser, perPersonMoney), updateSpGroup(req), fix(group_memberIDArray, perPersonMoney, currUser)]).then(value => {
                 return res.redirect("../Dashboard");
             })
 
         })
-
         .catch((err) => {
             console.log(err);
         });
@@ -491,7 +465,15 @@ async function updateBkaya(group_memberIDArray, perPersonMoney, currUser, currId
         )
     })
 }
-
+async function updateSpGroup(req) {
+    new Promise((resolve, reject) => {
+        db.query("update sp_group set totalTransaction =totalTransaction+? where gid =?",
+            [req.body.ammount, req.body.groupId], (err, res) => {
+                if (err) console.log(err)
+                resolve(null)
+            })
+    })
+}
 async function fix(group_memberIDArray, perPersonMoney, currUser) {
 
     for (var currId = 0; currId < group_memberIDArray.length; currId++) {
@@ -500,62 +482,61 @@ async function fix(group_memberIDArray, perPersonMoney, currUser) {
 
     }
 
-    console.log("exiting from db")
+
     return;
 
 }
+async function transactionFun(group_memberIDArray, req, currUser, perPersonMoney) {
+    for (var currId = 0; currId < group_memberIDArray.length; currId++) {
+        await insertTransaction(group_memberIDArray, req, currUser, perPersonMoney, currId);
+    }
+    return
+
+}
+async function insertTransaction(group_memberIDArray, req, currUser, perPersonMoney, currId) {
+    new Promise((resolve, reject) => {
+        db.query(
+            "insert into sp_transaction (description,uid,fid,gid, ammount) values(?,?,?,?,?)",
+            [
+                req.body.description,
+                currUser,
+                group_memberIDArray[currId],
+                req.body.groupId,
+                perPersonMoney,
+            ],
+            (err, res) => {
+                if (err) console.log(err)
+                resolve(null)
+            }
+        );
+    })
+}
 
 exports.settleup = (req, res) => {
+    console.log("wenter in auth settlup")
     const senderId = jwt.verify(req.headers.cookie.split("=")[1], process.env.JWT_SECRET).id
-    console.log(req.body)
+    const sendername = jwt.verify(req.headers.cookie.split("=")[1], process.env.JWT_SECRET).namee;
     if (req.body.Money === '' && req.body.settleUpFriend === undefined) {
+
         return res.redirect("../settleup?alertForSettleUp=" + "Select Friend And Enter Money")
     }
     else if (req.body.Money === '') {
+
         return res.redirect("../settleup?alertForSettleUp=" + "Enter Money")
     }
     else if (req.body.settleUpFriend === undefined) {
+        console.log(req.body)
         return res.redirect("../settleup?alertForSettleUp=" + "Select Friend")
     }
     else {
+        console.log(req.body)
         const Money = req.body.Money;
-        const RecieverId = req.body.settleUpFriend
+        const RecieverId = req.body.settleUpFriend.split(",")[0]
+        const RecieverName = req.body.settleUpFriend.split(",")[1]
+
         // for sender settling sp_users owe,owed,totalAmmount
         const promisekr = new Promise((resolve, reject) => {
-            // db.query("select owe from sp_users where id =?", (senderId), (err, res) => {
-            //     if (err) throw err;
-            //     resolve(res[0].owe)
-            // })
 
-
-
-            // })
-
-            // .then(owe => {
-            //     if (owe >= Money) {
-            //         db.query("update sp_users set owe=owe-? where id=?", [Money, senderId], (err, res) => {
-
-            //         })
-            //     }
-            //     else {
-            //         const rest = Money - owe
-            //         db.query("update sp_users set owe=?,totalMoney=totalMoney+?,owed=owed+? where id=?", [0, rest, rest, senderId], (err, res) => {
-            //             if (err) throw err;
-
-            //         })
-            //     }
-            //     return;
-            // })
-            // / for reciever settling sp_users owe,owed,totalAmmount 
-            // .then(() => {
-
-            //     db.query("update sp_users set totalMoney=totalMoney-?,owed=owed- case when owed>0? where id=?", [Money, Money, RecieverId], (err, res) => {
-            //         if (err) throw err;
-
-            //     })
-            // })
-            // // updating bkaya of sender
-            // .then(() => {
             var uidFid = [senderId, RecieverId]
             db.query("update sp_bkaya set  amount=amount+ case when uid=? and fid=? then -? when fid=? and uid =? then ? end where uid in (?) and fid in (?)",
                 [
@@ -594,23 +575,27 @@ exports.settleup = (req, res) => {
                             })
 
                     }
+                    resolve(null);
 
-                    return;
 
                 })
+
 
         })
             // settleuptransaction
-            .then(() => {
-                db.query("insert into sp_settelup_transaction set ?", { uid: senderId, fid: RecieverId, amount: Money }, (err, res) => {
+            .then(value => {
+
+                db.query("insert into sp_settelup_transaction set ?", { uid: senderId, fid: RecieverId, amount: Money, uidName: sendername, fidName: RecieverName }, (err, res) => {
+                    if (err) throw err;
 
                 })
-                return;
+                return res.redirect("../Dashboard?successfullySent=" + "SuccessfullySent");
+
             })
             .catch(value => {
                 console.log(value)
             })
-        return res.redirect("../Dashboard?successfullySent=" + "SuccessfullySent");
+
 
 
 
