@@ -4,7 +4,7 @@
   "description": ". We started making a website which will based on idea of spliting price.",
   "main": "main.js",
   "dependencies": {
-    "async": "^3.2.0",
+    "async": "^3.2.2",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.5.0",
     "connect-flash": "^0.1.1",
